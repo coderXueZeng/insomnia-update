@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-42+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v42.deb",
-  "sha256": "e79656a92ee4859d7805ec341d3959f8764152aa488b304d41d01dd57ec88990",
-  "notes": "自更新链路端到端验证版（与 41 同代码，仅版本号递增）"
+  "version": "0.1.0-44+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v44.deb",
+  "sha256": "0a6591da417f5f941589bfaf63e6bc57b7235e9ec148a08c34f8e397266b84ec",
+  "notes": "自更新链路端到端验证（清单请求防缓存 + 守护进程安装）"
 }
