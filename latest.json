@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-56+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v56.deb",
-  "sha256": "ecc7420b72a351d5f57f72c89b46fcda4dca679ea5050bba858196cce03ff129",
-  "notes": "v56 表情包斗图（v55 修正）：面板打开判定兼容 120 元素截断、格子识别加最小数量保护、异常时释放占坑锁；支持 @insomnia 斗图开/关、来一张、表情包、斗图 面板/图片/自动"
+  "version": "0.1.0-57+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v57.deb",
+  "sha256": "309dfc08b3381957bbc9c17acea460edf7f5f4e75a0c8afaf2372367f78203c7",
+  "notes": "v57 修复 Key 未配置/同步归零：配置与记忆双备份+锁屏防覆盖+启动自愈；新增 @insomnia 配置/恢复配置/key/setup 自救命令；新增定时同步进度汇报（默认每 60 分钟发到文件传输助手，进度开/关/30/现在/这里）；update 内置清单地址并支持免密直装"
 }
