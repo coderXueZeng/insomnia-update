@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-52+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v52.deb",
-  "sha256": "96136054daa0baa4ce9d487ab50a420d651f082a90acf4bd455ff64823d50cae",
-  "notes": "支持分析别人合并转发的聊天记录（引用/看聊天记录/看第N条）；抓不到网页正文时自动在屏幕上点开链接读一遍（优先微信内置浏览器，兜底 Safari+OCR），也可 @insomnia 点开 强制；历史查询日志不再刷屏"
+  "version": "0.1.0-54+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v54.deb",
+  "sha256": "701b8f78f68cccc74ce58000eb3d9d1934656dcfdb468d4928cfe1b42f9d7937",
+  "notes": "统一叙述人称：用户本人一律称「你」（可用 @insomnia 叫我 xxx 改成对方对自己的称呼），对方一律称备注/姓名，全部第三人称、禁止用「我」代指聊天中的人；记忆摘要与要点分别写明双方、不再写「两人」；新增 @insomnia 重述 把旧摘要按新口径重写；status/交接包显示当前口径"
 }
