@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-50+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v50.deb",
-  "sha256": "d85a350a0a9e00199eb1fc40b6e5a09a3f8524b0cf48fcc542dcdc71f11584ae",
-  "notes": "看链接支持自然语句（看下他发的链接/看看链接/这个链接讲了啥）、引用链接消息后 @insomnia 直接分析被引用的那条；记录本会话最近 8 条链接并支持 links 与看第N条链接；命令里直接贴网址、上方聊天记录纯文本网址均可兜底"
+  "version": "0.1.0-51+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v51.deb",
+  "sha256": "e61b82c1590a44059eca8b0f7c950d04a0523d17addf985a9c5161ef3a070100",
+  "notes": "引用图片消息后 @insomnia 也能直接分析（与引用链接同一套通道）；新增口语化看图命令（看下这张图/看看他发的图）；取图优先被引用内容、失败回落本会话最近记下的图片；引用日志标注类型"
 }
