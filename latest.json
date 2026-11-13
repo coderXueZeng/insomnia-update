@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-61+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v61.deb",
-  "sha256": "277b94451caf351a4577c3ac4c0703c535cacdbbe443d6a752edd647c4be971f",
-  "notes": "v61 日志降噪 + 权限提示：文本发送成功/失败合并成一行（不再刷「无匹配方法」「没有可用的逻辑控制器」）；dpkg 因非 root 失败时直接提示发 @insomnia 密码 <密码>；含 v59/v60 全部改动"
+  "version": "0.1.0-62+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v62.deb",
+  "sha256": "957ad7f28017190ad0187ea61edc7119df573ca78788a985791efc7ad1333231",
+  "notes": "v62 生图意图修复：@insomnia 后面跟「给我画/帮我画/能不能画…」也能识别为出图（先剥掉礼貌前言再看动词），不再被当成普通提问丢给文本模型；文本模型回「没有绘图能力」时补一句正确用法"
 }
