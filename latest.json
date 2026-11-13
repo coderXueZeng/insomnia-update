@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-44+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v44.deb",
-  "sha256": "0a6591da417f5f941589bfaf63e6bc57b7235e9ec148a08c34f8e397266b84ec",
-  "notes": "自更新链路端到端验证（清单请求防缓存 + 守护进程安装）"
+  "version": "0.1.0-46+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v46.deb",
+  "sha256": "0efa5350393bde2874915301afc86321b26b03bfeb40ce81da64cc48f2eb7b64",
+  "notes": "修复自更新后自动重启微信（uiopen 需 --bundleid 参数）"
 }
