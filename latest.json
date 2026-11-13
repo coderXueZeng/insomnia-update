@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-60+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v60.deb",
-  "sha256": "fdcd583e8f99a92c6d5480e39dfe64cd6af348ee8d44c56cb7378f2a8bf6a76a",
-  "notes": "v60 配置单键自救：新增 @insomnia 密码 <sudo密码>、@insomnia 清单 <地址>，长恢复串被截断时也能逐项补回；含 v59 的没 Key 本地拦截与 setup 诊断"
+  "version": "0.1.0-61+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v61.deb",
+  "sha256": "277b94451caf351a4577c3ac4c0703c535cacdbbe443d6a752edd647c4be971f",
+  "notes": "v61 日志降噪 + 权限提示：文本发送成功/失败合并成一行（不再刷「无匹配方法」「没有可用的逻辑控制器」）；dpkg 因非 root 失败时直接提示发 @insomnia 密码 <密码>；含 v59/v60 全部改动"
 }
