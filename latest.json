@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-40+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v40.deb",
-  "sha256": "728963bac54c0b7fe55a776110ac1f4114f5c1cee7af0f87b02ebf86d68f7f4e",
-  "notes": "自更新通道改用 jsDelivr CDN 镜像（手机蜂窝网络可访问），并验证一键升级链路"
+  "version": "0.1.0-41+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v41.deb",
+  "sha256": "ea506db30f80e601d253db262a230aed68dd1ddfdc5c5353aa923a4d0c16f9a5",
+  "notes": "修复自更新：shell 操作改由 ios-mcp 守护进程执行（微信沙箱内 sudo/dpkg 不可用）；清单改用 GitHub latest release 资产避免 CDN 缓存"
 }
