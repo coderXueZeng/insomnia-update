@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-62+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v62.deb",
-  "sha256": "957ad7f28017190ad0187ea61edc7119df573ca78788a985791efc7ad1333231",
-  "notes": "v62 生图意图修复：@insomnia 后面跟「给我画/帮我画/能不能画…」也能识别为出图（先剥掉礼貌前言再看动词），不再被当成普通提问丢给文本模型；文本模型回「没有绘图能力」时补一句正确用法"
+  "version": "0.1.0-63+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v63.deb",
+  "sha256": "bf97e2e6020b0ac9218a9173748544257e6e16efd62483612033ab06896d200d",
+  "notes": "v63 发言人方向修复：历史回填的 Des 语义不再写死，改用文件传输助手单向特性自动校准；filehelper/微信团队等单向账号强制按「你」记录；摘要提示词禁止把单方面记录写反；新增 @insomnia 方向 体检（显示原始 Des 与最终标注）"
 }
