@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-58+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v58.deb",
-  "sha256": "a420123244125a2204ed92b99d6ca80e8e7297c48d5344d2340030a315224200",
-  "notes": "v58 自更新兜底：清单地址内置（清空 config 也能更新）+ 新增 @insomnia 装 <deb直链> 手动装包通道；含 v57 全部修复（配置/记忆双备份、锁屏防覆盖、setup 导入、定时同步进度汇报）"
+  "version": "0.1.0-59+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v59.deb",
+  "sha256": "695e73979b9ca3706cc6ca27fc7a1094226489c32711d95ccb2792f2a9308331",
+  "notes": "v59 配置自愈体验：没 Key 时不再白发请求（本地直接提示 setup/key，省 401 与重试）、sync 先校验 Key、setup 支持 恢复key 别名并区分「base64 解不开 / JSON 不合法 / 字段为空」、导入后回报具体字段名"
 }
