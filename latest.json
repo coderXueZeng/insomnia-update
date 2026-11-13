@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-48+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v48.deb",
-  "sha256": "ff21aabf354595b411e0d4f93500f0f35f2a9c191b00ceeaa5f9085d4496a7aa",
-  "notes": "看链接改为带微信浏览器 UA 抓正文、识别反爬验证页并明确告知；新增 @insomnia link 回显链接；日志压成一行；修提醒「去吃饭去」重复"
+  "version": "0.1.0-50+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v50.deb",
+  "sha256": "d85a350a0a9e00199eb1fc40b6e5a09a3f8524b0cf48fcc542dcdc71f11584ae",
+  "notes": "看链接支持自然语句（看下他发的链接/看看链接/这个链接讲了啥）、引用链接消息后 @insomnia 直接分析被引用的那条；记录本会话最近 8 条链接并支持 links 与看第N条链接；命令里直接贴网址、上方聊天记录纯文本网址均可兜底"
 }
