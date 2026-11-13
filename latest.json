@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-47+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v47.deb",
-  "sha256": "58e26644881a3ed62200f500c68e29173e42538d10cde5ac640dd5a4ce64ff90",
-  "notes": "新增 @insomnia log（取最近日志，脱敏后可复制给 WorkBuddy）与 @insomnia wb（生成含版本/配置/日志的交接包）；电脑不在身边也能把错误现场带出来"
+  "version": "0.1.0-48+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v48.deb",
+  "sha256": "ff21aabf354595b411e0d4f93500f0f35f2a9c191b00ceeaa5f9085d4496a7aa",
+  "notes": "看链接改为带微信浏览器 UA 抓正文、识别反爬验证页并明确告知；新增 @insomnia link 回显链接；日志压成一行；修提醒「去吃饭去」重复"
 }
