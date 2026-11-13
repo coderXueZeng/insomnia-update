@@ -1,0 +1,6 @@
+{
+  "version": "0.1.0-39+debug",
+  "url": "https://github.com/coderXueZeng/insomnia-update/releases/download/v39/com.xuezeng.insomnia_0.1.0-39+debug_iphoneos-arm64.deb",
+  "sha256": "6a78f38548a68ea1de1e0768f0b53e3543ad7739607e832ebc75a4b660b1fa89",
+  "notes": "新增 @insomnia update 自更新通道（GitHub Releases 拉取 deb、sha256 校验、自动 dpkg 安装并重启微信）；含记忆同步非阻塞与定时提醒修复"
+}
