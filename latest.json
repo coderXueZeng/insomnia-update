@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-57+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v57.deb",
-  "sha256": "309dfc08b3381957bbc9c17acea460edf7f5f4e75a0c8afaf2372367f78203c7",
-  "notes": "v57 修复 Key 未配置/同步归零：配置与记忆双备份+锁屏防覆盖+启动自愈；新增 @insomnia 配置/恢复配置/key/setup 自救命令；新增定时同步进度汇报（默认每 60 分钟发到文件传输助手，进度开/关/30/现在/这里）；update 内置清单地址并支持免密直装"
+  "version": "0.1.0-58+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v58.deb",
+  "sha256": "a420123244125a2204ed92b99d6ca80e8e7297c48d5344d2340030a315224200",
+  "notes": "v58 自更新兜底：清单地址内置（清空 config 也能更新）+ 新增 @insomnia 装 <deb直链> 手动装包通道；含 v57 全部修复（配置/记忆双备份、锁屏防覆盖、setup 导入、定时同步进度汇报）"
 }
