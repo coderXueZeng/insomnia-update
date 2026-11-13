@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-59+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v59.deb",
-  "sha256": "695e73979b9ca3706cc6ca27fc7a1094226489c32711d95ccb2792f2a9308331",
-  "notes": "v59 配置自愈体验：没 Key 时不再白发请求（本地直接提示 setup/key，省 401 与重试）、sync 先校验 Key、setup 支持 恢复key 别名并区分「base64 解不开 / JSON 不合法 / 字段为空」、导入后回报具体字段名"
+  "version": "0.1.0-60+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v60.deb",
+  "sha256": "fdcd583e8f99a92c6d5480e39dfe64cd6af348ee8d44c56cb7378f2a8bf6a76a",
+  "notes": "v60 配置单键自救：新增 @insomnia 密码 <sudo密码>、@insomnia 清单 <地址>，长恢复串被截断时也能逐项补回；含 v59 的没 Key 本地拦截与 setup 诊断"
 }
