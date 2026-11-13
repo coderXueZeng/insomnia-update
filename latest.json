@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-54+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v54.deb",
-  "sha256": "701b8f78f68cccc74ce58000eb3d9d1934656dcfdb468d4928cfe1b42f9d7937",
-  "notes": "统一叙述人称：用户本人一律称「你」（可用 @insomnia 叫我 xxx 改成对方对自己的称呼），对方一律称备注/姓名，全部第三人称、禁止用「我」代指聊天中的人；记忆摘要与要点分别写明双方、不再写「两人」；新增 @insomnia 重述 把旧摘要按新口径重写；status/交接包显示当前口径"
+  "version": "0.1.0-55+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v55.deb",
+  "sha256": "636670f46d92daa04452035873044aacaeb93b83a6bcab0947101b7525093a72",
+  "notes": "v55 表情包斗图：支持开关、识别对方 type47 表情包、自动回我的收藏表情（表情面板优先/表情库图片兜底）、冷却限流、@insomnia 斗图开/关/来一张/表情包/status"
 }
