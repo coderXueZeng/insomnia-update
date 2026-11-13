@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-55+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v55.deb",
-  "sha256": "636670f46d92daa04452035873044aacaeb93b83a6bcab0947101b7525093a72",
-  "notes": "v55 表情包斗图：支持开关、识别对方 type47 表情包、自动回我的收藏表情（表情面板优先/表情库图片兜底）、冷却限流、@insomnia 斗图开/关/来一张/表情包/status"
+  "version": "0.1.0-56+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v56.deb",
+  "sha256": "ecc7420b72a351d5f57f72c89b46fcda4dca679ea5050bba858196cce03ff129",
+  "notes": "v56 表情包斗图（v55 修正）：面板打开判定兼容 120 元素截断、格子识别加最小数量保护、异常时释放占坑锁；支持 @insomnia 斗图开/关、来一张、表情包、斗图 面板/图片/自动"
 }
