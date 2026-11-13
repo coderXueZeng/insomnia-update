@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-51+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v51.deb",
-  "sha256": "e61b82c1590a44059eca8b0f7c950d04a0523d17addf985a9c5161ef3a070100",
-  "notes": "引用图片消息后 @insomnia 也能直接分析（与引用链接同一套通道）；新增口语化看图命令（看下这张图/看看他发的图）；取图优先被引用内容、失败回落本会话最近记下的图片；引用日志标注类型"
+  "version": "0.1.0-52+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v52.deb",
+  "sha256": "96136054daa0baa4ce9d487ab50a420d651f082a90acf4bd455ff64823d50cae",
+  "notes": "支持分析别人合并转发的聊天记录（引用/看聊天记录/看第N条）；抓不到网页正文时自动在屏幕上点开链接读一遍（优先微信内置浏览器，兜底 Safari+OCR），也可 @insomnia 点开 强制；历史查询日志不再刷屏"
 }
