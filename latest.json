@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-63+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v63.deb",
-  "sha256": "bf97e2e6020b0ac9218a9173748544257e6e16efd62483612033ab06896d200d",
-  "notes": "v63 发言人方向修复：历史回填的 Des 语义不再写死，改用文件传输助手单向特性自动校准；filehelper/微信团队等单向账号强制按「你」记录；摘要提示词禁止把单方面记录写反；新增 @insomnia 方向 体检（显示原始 Des 与最终标注）"
+  "version": "0.1.0-65+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v65.deb",
+  "sha256": "7543f16a83cc3e359c3bdc7d58fb1ff17baaaf937f7fb47ffc3239d5f2329d84",
+  "notes": "v65 回复送达修复：不再往本地库插假消息（默认只排队重发），发不出去会明确说「对方收不到」；新增 @insomnia 送达（看队列与最近真实送达）、补发（立刻重试）、本地回显 开/关；收到新消息与启动后自动补发，进度汇报不进队列"
 }
