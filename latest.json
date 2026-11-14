@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-65+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v65.deb",
-  "sha256": "7543f16a83cc3e359c3bdc7d58fb1ff17baaaf937f7fb47ffc3239d5f2329d84",
-  "notes": "v65 回复送达修复：不再往本地库插假消息（默认只排队重发），发不出去会明确说「对方收不到」；新增 @insomnia 送达（看队列与最近真实送达）、补发（立刻重试）、本地回显 开/关；收到新消息与启动后自动补发，进度汇报不进队列"
+  "version": "0.1.0-67+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v67.deb",
+  "sha256": "ded86476b7f98115f401dcc9dcb8d3f0ad89e7357c4d5832f6d4ce8315a12255",
+  "notes": "v67 同步提速：历史超过 2000 条自动切「并发回填」模式（每段 500 条 × 3 路并行只抽要点，攒 120 条要点再合并一次），单次 sync 可覆盖 9 万条；文本瘦身（丢纯语气词、长链接截断）；进度带预计剩余时间；失败段自动补跑；新增 @insomnia 同步速度 N 调并发"
 }
