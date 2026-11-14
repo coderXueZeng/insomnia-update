@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-67+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v67.deb",
-  "sha256": "ded86476b7f98115f401dcc9dcb8d3f0ad89e7357c4d5832f6d4ce8315a12255",
-  "notes": "v67 同步提速：历史超过 2000 条自动切「并发回填」模式（每段 500 条 × 3 路并行只抽要点，攒 120 条要点再合并一次），单次 sync 可覆盖 9 万条；文本瘦身（丢纯语气词、长链接截断）；进度带预计剩余时间；失败段自动补跑；新增 @insomnia 同步速度 N 调并发"
+  "version": "0.1.0-70+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v70.deb",
+  "sha256": "3a475b6c06be74298a2e3858c6292c8b3d0244a435e59f9da063570860f0e1e3",
+  "notes": "v70 自动看链接：点进聊天（聊天界面出现）就自动分析对方最近发来但没看过的链接卡片，抓正文+模型总结存本地；可选 收链接即看（来一条读一条）；模式 静默/转发文件传输助手/回复当前会话；按 URL 去重、每次进会话最多 2 条、每小时最多 20 条；新增 @insomnia 自动看链接 开/关/静默/转发/回复、链接摘要"
 }
