@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-95+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v95.deb",
-  "sha256": "be0b6a1c19a76d17a137c8823e12d5a6295e1925de2896daee204139c5212906",
-  "notes": "修语音只播一半：重采样进度用源采样数比较（升采样时原来刚过半就判定放完）；采样率改从编码器取；新增录音文件通道以防语音条走文件"
+  "version": "0.1.0-97+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v97.deb",
+  "sha256": "cb8f68e62b2a495d179071581af3ef4402cec4e18b569881c99b93cad93ce5b2",
+  "notes": "收紧语音尾部：StopRecord 未真正停止时直接停录音器，尾部静音从 0.35s 降到 0.15s，并统计尾部静音帧数"
 }
