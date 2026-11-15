@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-74+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v74.deb",
-  "sha256": "ab05d5f1687bcfd25980252d6d860a340d70e001f5657053f0f30f2036650ee1",
-  "notes": "修统计关键词被切错：把回执原文发回来也能正确取出「你小子」；「统计】xxx」这类碎文本不再被当成命令；没查到时给更明确的提示"
+  "version": "0.1.0-76+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v76.deb",
+  "sha256": "22cb078ccdca1997c9c2b7c30960649c5c0b736991f83cde5fd1db185128e9ab",
+  "notes": "新增热点命令：微博/抖音/知乎/百度/头条/B站热榜，附可点开链接，支持条数、关键词过滤与全网聚合；接口直连官方，抓不到就如实说明，不让模型编新闻"
 }
