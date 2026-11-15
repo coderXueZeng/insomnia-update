@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-71+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v71.deb",
-  "sha256": "9fde443eb79e0c9f2c95273a4d3eb815a69f3c96b94ea723bfd84830640db0ef",
-  "notes": "统计类问题直接扫本地聊天库：林健说了多少句 你小子 / 数 林健 你小子；问别人时自动带上那个会话的记忆和最近原文，不再回「没有对方的台词/视频记录」"
+  "version": "0.1.0-73+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v73.deb",
+  "sha256": "88b8b71de276d1c41e38237e61b8ffffba45ddf47acd3acf6c96b1271feed382",
+  "notes": "统计问题不再落回大模型：在当前会话里带名字问也能直接数；人名解析失败给可选的备注名清单；LLM 网络抖动重试 3 次；日志记录回复字数便于排查"
 }
