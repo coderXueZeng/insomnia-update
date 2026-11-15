@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-80+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v80.deb",
-  "sha256": "bd61abd733653d1b9c081264f3065275f509e28b425873a4b16de36f77c11c0d",
-  "notes": "修「联系人在通讯录里却查不到」：通讯录读取改为带超时重试+不再永久缓存空结果，并加本地通讯录库 rcontact 兜底；新增 查人 <名字> 列出备注名与 wxid，授权失败时给出来源和联系人数量"
+  "version": "0.1.0-81+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v81.deb",
+  "sha256": "8d94f64a12d0bb45de14e520e17b75d38078723e63844728ce4f37044d5af713",
+  "notes": "代发改用微信内部接口打开对方会话（MMMsgLogicManager），不再依赖屏幕模拟点击；发送链路四段依次回退并回执具体卡在哪一步；新增 代发体检 命令"
 }
