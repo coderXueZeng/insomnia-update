@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-85+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v85.deb",
-  "sha256": "3ddfc6b291aca8f5ac4d98f73eeeff6fb20ff8e9dc9b7767f7d279c3d6f35ee2",
-  "notes": "语音 Key 池：主 Key 挂了自动降级到备用 Key；新增 语音key2 / 语音key 列表 / 语音key 测"
+  "version": "0.1.0-87+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v87.deb",
+  "sha256": "5384a5632f047a4d42895c422ebbb13b8a48c3aa0011e820febf4db4f9e21e31",
+  "notes": "语音可诊断：status 显示语音通道与上次失败原因，测key 一并体检语音，发条语音 说…也能识别，PCM 3 秒没回调立刻报错"
 }
