@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-87+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v87.deb",
-  "sha256": "5384a5632f047a4d42895c422ebbb13b8a48c3aa0011e820febf4db4f9e21e31",
-  "notes": "语音可诊断：status 显示语音通道与上次失败原因，测key 一并体检语音，发条语音 说…也能识别，PCM 3 秒没回调立刻报错"
+  "version": "0.1.0-88+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v88.deb",
+  "sha256": "896150ed8ed6555fc3e8530229883c6ae73ca483125bf9b3a5b37163b38b065b",
+  "notes": "修语音体检：Key 探测不再把正常 JSON 当错误；AudioSender 拿不到时自建实例并报出父类/service 状态"
 }
