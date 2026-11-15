@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-70+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v70.deb",
-  "sha256": "3a475b6c06be74298a2e3858c6292c8b3d0244a435e59f9da063570860f0e1e3",
-  "notes": "v70 自动看链接：点进聊天（聊天界面出现）就自动分析对方最近发来但没看过的链接卡片，抓正文+模型总结存本地；可选 收链接即看（来一条读一条）；模式 静默/转发文件传输助手/回复当前会话；按 URL 去重、每次进会话最多 2 条、每小时最多 20 条；新增 @insomnia 自动看链接 开/关/静默/转发/回复、链接摘要"
+  "version": "0.1.0-71+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v71.deb",
+  "sha256": "9fde443eb79e0c9f2c95273a4d3eb815a69f3c96b94ea723bfd84830640db0ef",
+  "notes": "统计类问题直接扫本地聊天库：林健说了多少句 你小子 / 数 林健 你小子；问别人时自动带上那个会话的记忆和最近原文，不再回「没有对方的台词/视频记录」"
 }
