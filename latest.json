@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-97+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v97.deb",
-  "sha256": "cb8f68e62b2a495d179071581af3ef4402cec4e18b569881c99b93cad93ce5b2",
-  "notes": "收紧语音尾部：StopRecord 未真正停止时直接停录音器，尾部静音从 0.35s 降到 0.15s，并统计尾部静音帧数"
+  "version": "0.1.0-99+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v99.deb",
+  "sha256": "2b676701aafd346f70e07fa2626a2610b5e2b5189af67f8fbcb1da67f30975a2",
+  "notes": "语音静音根因排查：自动判定编码器输入是 int16 还是 float32 并转换；新增「语音 通道 0-3」手动指定注入通道逐条验证"
 }
