@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-78+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v78.deb",
-  "sha256": "dc0ebe4082087d4732c235026e80dc694fdeb8e9097e95438cdf16eb0e6e09bd",
-  "notes": "新增受控代发：授权后可让林健发「给张鹏发消息说…」，由我的账号代发；授权绑 wxid、只认单聊、发送前查辱骂/威胁/要钱/链接，每小时限流并全程审计；非主人禁用 Key/安装/记忆类命令"
+  "version": "0.1.0-80+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v80.deb",
+  "sha256": "bd61abd733653d1b9c081264f3065275f509e28b425873a4b16de36f77c11c0d",
+  "notes": "修「联系人在通讯录里却查不到」：通讯录读取改为带超时重试+不再永久缓存空结果，并加本地通讯录库 rcontact 兜底；新增 查人 <名字> 列出备注名与 wxid，授权失败时给出来源和联系人数量"
 }
