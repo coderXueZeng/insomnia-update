@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-81+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v81.deb",
-  "sha256": "8d94f64a12d0bb45de14e520e17b75d38078723e63844728ce4f37044d5af713",
-  "notes": "代发改用微信内部接口打开对方会话（MMMsgLogicManager），不再依赖屏幕模拟点击；发送链路四段依次回退并回执具体卡在哪一步；新增 代发体检 命令"
+  "version": "0.1.0-83+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v83.deb",
+  "sha256": "76c8ff190b4a75d7f0f7e9a26a3a1c6bf78084b26db8d906b9d003c36bd93337",
+  "notes": "Key 失效不再回裸 HTTP：403 分组已删/401/402/429/5xx 都翻译成下一步怎么做；新增 测key 体检主备通道、key2/base2/model2 备用通道、兜底 一键把视觉通道当聊天备用"
 }
