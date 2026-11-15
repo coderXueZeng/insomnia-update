@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-88+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v88.deb",
-  "sha256": "896150ed8ed6555fc3e8530229883c6ae73ca483125bf9b3a5b37163b38b065b",
-  "notes": "修语音体检：Key 探测不再把正常 JSON 当错误；AudioSender 拿不到时自建实例并报出父类/service 状态"
+  "version": "0.1.0-93+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v93.deb",
+  "sha256": "b514a9559e00e14c039c11eb0ee45cf80cbe9158ea92e35ad18adac3423a04ac",
+  "notes": "语音注入改到编码器入口（Silk/MJSilk/Opus），AudioSender 那条是旁路不送编码器；各通道互斥并给出命中计数"
 }
