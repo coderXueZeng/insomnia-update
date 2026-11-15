@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-83+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v83.deb",
-  "sha256": "76c8ff190b4a75d7f0f7e9a26a3a1c6bf78084b26db8d906b9d003c36bd93337",
-  "notes": "Key 失效不再回裸 HTTP：403 分组已删/401/402/429/5xx 都翻译成下一步怎么做；新增 测key 体检主备通道、key2/base2/model2 备用通道、兜底 一键把视觉通道当聊天备用"
+  "version": "0.1.0-84+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v84.deb",
+  "sha256": "a1e2f5aeeced5569827f2783eee2ecf8ee5474a01b4c436f16f4a25bd71a483e",
+  "notes": "新增语音条：Breeze TTS 合成 PCM 后顶替微信录音器的麦克风数据，由微信自己编码上传，对方收到标准语音气泡；支持 语音 <文本> / 语音 试 / 语音体检 / 语音 声 list / 语音 语气 / 语音 模式"
 }
