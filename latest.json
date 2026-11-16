@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-101+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v101.deb",
-  "sha256": "edbbb941b6659d0954a0c87b14a20cbc6d330601a5c35b7d1245f18a39385278",
-  "notes": "别人也能对话：新增 放行/取消放行/放行列表；被名单拦下时写日志并提醒主人；看图支持多张（两张/这几张/第N张）；LLM 超时重试加长并自动切备用通道；修自动看链接日志乱码"
+  "version": "0.1.0-102+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v102.deb",
+  "sha256": "5048001b76e351752c789fe686b7ac37fc4e65c535bfeba37e77a4b12d64830f",
+  "notes": "看图不再答错：引用图取不到直接报错（不再悄悄换成会话最后一张），并按 xml 匹配本地记录多给一次机会；被名单拦下改在主人下条命令时回执提示（不再往文件传输助手硬发导致跳转失败）；CDN 取图多试三个地址"
 }
