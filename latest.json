@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-112+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v112.deb",
-  "sha256": "d408c29396ac44025f1675351aaedc23bf8246552b412b63b608d77da8a3908a",
-  "notes": "语音：日志记录实际要念的文本，便于核对念的内容"
+  "version": "0.1.0-113+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v113.deb",
+  "sha256": "1063e31cc792cb9d541f69518711e2594f51b4d277a2676de627d58ad24fcc66",
+  "notes": "语音：去掉念稿开头残留的》符号；超长截断时给一句提示"
 }
