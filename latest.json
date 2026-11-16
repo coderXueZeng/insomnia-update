@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-142+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v142.deb",
-  "sha256": "42894b2f1dd962a79c348d799c01ffeabed046ac3af150c7e0e5e4cc0ae7ceca",
-  "notes": "修代发限流：只有真正送达才扣额度，发送失败不再计入（失败的人可立刻换句话重试，不用等额度重置）"
+  "version": "0.1.0-143+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v143.deb",
+  "sha256": "203c383e042c668ff52596aa11bd48a45eda4b41de35893b51591d3baa880e30",
+  "notes": "修代发回执黑屏：回执原先走屏幕模拟，连续切换会话(发给A→回执给B)时会弹空微信导航栈导致黑屏；改为回执也优先用微信内部接口开会话，并在屏幕兜底失败时点微信tab恢复会话列表"
 }
