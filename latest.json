@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-123+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v123.deb",
-  "sha256": "cd537cee5f9743cf98ed13b77e6c42326273706e4620aabfe92442a6f1c47feb",
-  "notes": "问答：引用会标明原话是谁说的；上下文剔除 @insomnia 指令并加时间戳；禁止数「问了几次」"
+  "version": "0.1.0-124+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v124.deb",
+  "sha256": "69e03160b182cd067a4d64174d51d2d4e21c4a1e1543c296f52d35c70229bdaf",
+  "notes": "问答：引用说明补兜底（引用的若是对方，直接写对方备注名，不写「对方」）"
 }
