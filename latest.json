@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-110+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v110.deb",
-  "sha256": "20c9890e18f777ff0c45007517a36eecbfee2582fed33e8fc303a618389b579a",
-  "notes": "语音：@insomnia 语音 <话> 改为先理解再念回答（背诗/讲笑话不再照读指令），照读改用 语音 原文"
+  "version": "0.1.0-111+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v111.deb",
+  "sha256": "c2d1677cc65d693ae08662b0d54f200b52674daa3e3eb6b3b830b7608a2c0667",
+  "notes": "语音：语音 <话> 先理解再念回答；不再额外发一条「已发语音…」文字；照读用 语音 原文"
 }
