@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-104+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v104.deb",
-  "sha256": "788137daf4f448fad274be7f14e0892206f112f767b91afdd76344caa0e5b196",
-  "notes": "语音定位：合成后自检波形峰值/RMS/文件头，静音直接报错不发哑语音；注入首帧记录格式/采样率/峰值，一次触发就能看出是合成静音还是写入失败"
+  "version": "0.1.0-105+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v105.deb",
+  "sha256": "c2e779b35afe0c7b5eb2de0de6fbd07ee93ee2a81ed12eaf2afae7cf366e884b",
+  "notes": "引用解析诊断：refermsg 的 type 解析为空时把结构打码记日志；图片判定兼容转义写法；识别引用日志补 引用长度/svrid；含 v104 语音波形自检"
 }
