@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-111+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v111.deb",
-  "sha256": "c2d1677cc65d693ae08662b0d54f200b52674daa3e3eb6b3b830b7608a2c0667",
-  "notes": "语音：语音 <话> 先理解再念回答；不再额外发一条「已发语音…」文字；照读用 语音 原文"
+  "version": "0.1.0-112+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v112.deb",
+  "sha256": "d408c29396ac44025f1675351aaedc23bf8246552b412b63b608d77da8a3908a",
+  "notes": "语音：日志记录实际要念的文本，便于核对念的内容"
 }
