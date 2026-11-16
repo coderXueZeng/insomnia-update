@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-130+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v130.deb",
-  "sha256": "c415e608e76f68e919d36d1d7324a1fe8df12afbeab59d58408c698ca0dc62f7",
-  "notes": "找人：新增会话列表兜底 + 人名簿（见过的名字→wxid），修「给林健发消息说…」找不到人"
+  "version": "0.1.0-131+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v131.deb",
+  "sha256": "67e96e9439607a6feda7f4aa847e39105e942f6f22b7d106b138940a55fc45bc",
+  "notes": "加「直发能力」诊断：列出微信内部 Send* 方法，用于做不切界面的直发"
 }
