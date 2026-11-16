@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-126+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v126.deb",
-  "sha256": "6f44127e60512e372a433406fa279c6db64b8bb518f122aa15ab739bbcceaf7c",
-  "notes": "排队：多人同时 @ 时按消息时间先后逐条回答（不再并发乱序）；新增 排队 开/关/清空 与状态查询"
+  "version": "0.1.0-127+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v127.deb",
+  "sha256": "2a033b53595cdb59114fa1f61549282410daec7f5cc10d9d017633a57fcff6c5",
+  "notes": "排队：日志与状态能看出正在处理哪条、压了几条（多人同时 @ 按消息时间逐条回答）"
 }
