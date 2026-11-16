@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-116+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v116.deb",
-  "sha256": "3f9ce3f44f05619b75e11cb9d1a1496679f5bfa9e210c1e8d921159b1774a3ef",
-  "notes": "斗图：修一次发三张（页签误判成格子、收面板盲点、面板已开不重开）+ 发后自检"
+  "version": "0.1.0-117+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v117.deb",
+  "sha256": "efbf50364e08faa73dffa263d3c7f397d954a00f767c7c95becf84febb3edb25",
+  "notes": "斗图：表情按钮识别不再按 y>=560 写死（键盘弹出时按钮在 449）"
 }
