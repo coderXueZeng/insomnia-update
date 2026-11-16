@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-107+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v107.deb",
-  "sha256": "911982744da6975d363741583cd9651cafd5f6c9d93394d31ac9cfc867ffd837",
-  "notes": "语音根因修复：设备上语音文件实测是 SILK（02 23 21 53 49 4C 4B 5F 56 33），之前注入的 Opus 通道与语音条无关。改为用微信自带 SILK 编码器把 TTS 编成 SILK 流，录音结束时覆盖 .aud（原文件备份 .orig）+ GetTmpAudio 返回替换；编不出来直接报错不发哑语音"
+  "version": "0.1.0-108+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v108.deb",
+  "sha256": "e1e95826f56f84ca36262d7bd77ee1f55ffb3da50f98b0967a9658b2b92646e2",
+  "notes": "更新通道加 CDN 兜底：清单按 GitHub→jsDelivr→fastly 依次尝试，deb 下载失败自动换 fastly（国内直连 GitHub 常超时，之前 update 一直失败）；含 v107 语音 SILK 注入"
 }
