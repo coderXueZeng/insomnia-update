@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-132+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v132.deb",
-  "sha256": "1afc891f770aba96397767dc947519da4a0c65dca37695603a3c7c56c95814e9",
-  "notes": "直发能力诊断改到主线程取服务（后台线程拿不到 MMServiceCenter）"
+  "version": "0.1.0-133+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v133.deb",
+  "sha256": "66895747ea559e98bd1aa2d9e51f2fb50e6a1392629522173abc0206e5563cc2",
+  "notes": "跨会话发送：内部开会话等待 6 秒→2.4 秒，尽快转屏幕跳转（省 3-4 秒）"
 }
