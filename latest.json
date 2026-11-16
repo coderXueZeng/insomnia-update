@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-118+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v118.deb",
-  "sha256": "8175b7aa840844353011aaf4fdf5885b5d6a861d44ff26ba4e98edcbd79e8b9f",
-  "notes": "斗图：认「添加的单个表情」页签（收藏表情在这一页），先切页再点格子"
+  "version": "0.1.0-119+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v119.deb",
+  "sha256": "4301ec91ad152e37e66eecb0d8d7fe497375be931acfeebd95d87ccfdbbbad33",
+  "notes": "斗图：排除「添加的单个表情」按钮与页签标题，只点真正的表情格子"
 }
