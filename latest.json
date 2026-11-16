@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-102+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v102.deb",
-  "sha256": "5048001b76e351752c789fe686b7ac37fc4e65c535bfeba37e77a4b12d64830f",
-  "notes": "看图不再答错：引用图取不到直接报错（不再悄悄换成会话最后一张），并按 xml 匹配本地记录多给一次机会；被名单拦下改在主人下条命令时回执提示（不再往文件传输助手硬发导致跳转失败）；CDN 取图多试三个地址"
+  "version": "0.1.0-103+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v103.deb",
+  "sha256": "977c412587087b2265cf34b6b5b1788f274a39df289ccbc79dcc485ff47d2a11",
+  "notes": "引用图片取图修复：用 refermsg 的 svrid 反查 MesLocalID 读本地全图（.pic/wxgf 优先），失败再按 xml 认亲、再按 createtime 90 秒时间窗兜底，都拿不到才报错"
 }
