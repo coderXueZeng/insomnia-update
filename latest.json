@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-133+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v133.deb",
-  "sha256": "66895747ea559e98bd1aa2d9e51f2fb50e6a1392629522173abc0206e5563cc2",
-  "notes": "跨会话发送：内部开会话等待 6 秒→2.4 秒，尽快转屏幕跳转（省 3-4 秒）"
+  "version": "0.1.0-134+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v134.deb",
+  "sha256": "fa919b68076245bdf1d976e098dc904695517155e3a56bcf35ec3520fa2d90a4",
+  "notes": "跨会话发送：内部开会话失败后再等 2 秒复查，弹页后等动画结束（修「找不到返回入口」）"
 }
