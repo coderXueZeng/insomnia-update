@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-145+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v145.deb",
-  "sha256": "d6271859445c8ffb0b070e69f406b32adf1176ecb48d43e1d169133135eada82",
-  "notes": "修复生图后不返回微信发图：提示词发出即切回微信前台+UIApplication后台任务保活，双保险防微信在后台被冻结导致等待线程停摆；新增微信回前台pending兜底恢复；发图会话未打开时由16秒缩短到6秒后主动跳转"
+  "version": "0.1.0-146+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v146.deb",
+  "sha256": "6e540ed5145be4a9c7c363802e832b5e81325c311eb7172d6a9187d66981ac91",
+  "notes": "新增唱歌能力：@insomnia 唱歌 <歌名/要求> 现场编词并用 Breeze TTS 2 演唱指令合成唱歌腔语音条发出；新增「语音 唱腔 <描述>」设定演唱风格（清空恢复默认）；语音合成指令参数化（InsVoiceSynthesizeWith）"
 }
