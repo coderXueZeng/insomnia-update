@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-109+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v109.deb",
-  "sha256": "952a1d8ba09251f5f9611f15ce4de47805c674798d1b1203010240e57e49bc54",
-  "notes": "语音 SILK 修复第一版的两个致命 bug：自调 MJSilkCodec 被自己的 hook 拦下导致 TTS 被吃掉、录音0秒即停（现加 gSilkBusy 互斥）；MJSilkCodec 首帧自带 0x03#!SILK_V3 头，改为替换首字节为 0x02 不再重复套头"
+  "version": "0.1.0-110+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v110.deb",
+  "sha256": "20c9890e18f777ff0c45007517a36eecbfee2582fed33e8fc303a618389b579a",
+  "notes": "语音：@insomnia 语音 <话> 改为先理解再念回答（背诗/讲笑话不再照读指令），照读改用 语音 原文"
 }
