@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-119+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v119.deb",
-  "sha256": "4301ec91ad152e37e66eecb0d8d7fe497375be931acfeebd95d87ccfdbbbad33",
-  "notes": "斗图：排除「添加的单个表情」按钮与页签标题，只点真正的表情格子"
+  "version": "0.1.0-120+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v120.deb",
+  "sha256": "8559496e67f70957d049a918d894134969401a61f5325c6839e23bd7da330d1f",
+  "notes": "斗图：点一格确认一次，发不出去换下一格，一旦发出立刻停手（最多 3 次）"
 }
