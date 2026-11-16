@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-115+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v115.deb",
-  "sha256": "db93fc78a91c869aca6b671edd6b41fa0fccc50578967ad99d25538fc51f30d3",
-  "notes": "语音：末尾补 0.4 秒静音、停录延后到 0.4 秒，修最后一个字被切掉"
+  "version": "0.1.0-116+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v116.deb",
+  "sha256": "3f9ce3f44f05619b75e11cb9d1a1496679f5bfa9e210c1e8d921159b1774a3ef",
+  "notes": "斗图：修一次发三张（页签误判成格子、收面板盲点、面板已开不重开）+ 发后自检"
 }
