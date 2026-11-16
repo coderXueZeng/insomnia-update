@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-129+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v129.deb",
-  "sha256": "41d2a27445bb84b5c9d88e0263eb42c0f99cc9f8b58ece1f55211b54731e4ad2",
-  "notes": "排队：加 20 条上限防止连刷堵队，清空待办留日志"
+  "version": "0.1.0-130+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v130.deb",
+  "sha256": "c415e608e76f68e919d36d1d7324a1fe8df12afbeab59d58408c698ca0dc62f7",
+  "notes": "找人：新增会话列表兜底 + 人名簿（见过的名字→wxid），修「给林健发消息说…」找不到人"
 }
