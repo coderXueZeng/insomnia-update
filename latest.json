@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-108+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v108.deb",
-  "sha256": "e1e95826f56f84ca36262d7bd77ee1f55ffb3da50f98b0967a9658b2b92646e2",
-  "notes": "更新通道加 CDN 兜底：清单按 GitHub→jsDelivr→fastly 依次尝试，deb 下载失败自动换 fastly（国内直连 GitHub 常超时，之前 update 一直失败）；含 v107 语音 SILK 注入"
+  "version": "0.1.0-109+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v109.deb",
+  "sha256": "952a1d8ba09251f5f9611f15ce4de47805c674798d1b1203010240e57e49bc54",
+  "notes": "语音 SILK 修复第一版的两个致命 bug：自调 MJSilkCodec 被自己的 hook 拦下导致 TTS 被吃掉、录音0秒即停（现加 gSilkBusy 互斥）；MJSilkCodec 首帧自带 0x03#!SILK_V3 头，改为替换首字节为 0x02 不再重复套头"
 }
