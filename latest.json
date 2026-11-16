@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-105+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v105.deb",
-  "sha256": "c2e779b35afe0c7b5eb2de0de6fbd07ee93ee2a81ed12eaf2afae7cf366e884b",
-  "notes": "引用解析诊断：refermsg 的 type 解析为空时把结构打码记日志；图片判定兼容转义写法；识别引用日志补 引用长度/svrid；含 v104 语音波形自检"
+  "version": "0.1.0-106+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v106.deb",
+  "sha256": "654e7ff1999f4cf00165611129ade60f42547bdfff08978ab14f22c634ed620b",
+  "notes": "语音无声定位：新增编码输出/上传分片/临时音频三处探针，把编码结果另存 voice_enc.bin、TTS 另存 voice_last.wav 做对照；新增「语音 格式 int16|float32|auto」手动换采样格式（格式错会导致有时长无声音）"
 }
