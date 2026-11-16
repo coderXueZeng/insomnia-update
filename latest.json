@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-99+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v99.deb",
-  "sha256": "2b676701aafd346f70e07fa2626a2610b5e2b5189af67f8fbcb1da67f30975a2",
-  "notes": "语音静音根因排查：自动判定编码器输入是 int16 还是 float32 并转换；新增「语音 通道 0-3」手动指定注入通道逐条验证"
+  "version": "0.1.0-101+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v101.deb",
+  "sha256": "edbbb941b6659d0954a0c87b14a20cbc6d330601a5c35b7d1245f18a39385278",
+  "notes": "别人也能对话：新增 放行/取消放行/放行列表；被名单拦下时写日志并提醒主人；看图支持多张（两张/这几张/第N张）；LLM 超时重试加长并自动切备用通道；修自动看链接日志乱码"
 }
