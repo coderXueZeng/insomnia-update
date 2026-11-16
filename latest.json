@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-120+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v120.deb",
-  "sha256": "8559496e67f70957d049a918d894134969401a61f5325c6839e23bd7da330d1f",
-  "notes": "斗图：点一格确认一次，发不出去换下一格，一旦发出立刻停手（最多 3 次）"
+  "version": "0.1.0-121+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v121.deb",
+  "sha256": "8ad3254f923d5f71b019fe12878d58a62b76c9bcda65b368bdcadef4f18ec783",
+  "notes": "斗图：是否发出改成读会话气泡判定（消息回调有时不触发）+ 点一次确认一次"
 }
