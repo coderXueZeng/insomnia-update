@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-124+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v124.deb",
-  "sha256": "69e03160b182cd067a4d64174d51d2d4e21c4a1e1543c296f52d35c70229bdaf",
-  "notes": "问答：引用说明补兜底（引用的若是对方，直接写对方备注名，不写「对方」）"
+  "version": "0.1.0-125+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v125.deb",
+  "sha256": "21665060ed9fb4f8df2d66f3205e602e4b3b5bfd747d63c3efb97f6800a6b18a",
+  "notes": "放行：名字匹配再补一层消息昵称兜底；日志保留 4000→60000 字，排查历史更久"
 }
