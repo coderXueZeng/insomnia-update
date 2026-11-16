@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-141+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v141.deb",
-  "sha256": "fb959ad7e4792a80cbaff48c6830ec553db831389247792754b998f6ba995e88",
-  "notes": "修跨会话代发：给没有会话记录的人（如张鹏）发消息前先弹回会话列表再 Push；通讯录改读新版 WCDB 库（4785 人可查）；同名优先已授权/有聊天记录的人；代发体检只取第一个名字"
+  "version": "0.1.0-142+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v142.deb",
+  "sha256": "42894b2f1dd962a79c348d799c01ffeabed046ac3af150c7e0e5e4cc0ae7ceca",
+  "notes": "修代发限流：只有真正送达才扣额度，发送失败不再计入（失败的人可立刻换句话重试，不用等额度重置）"
 }
