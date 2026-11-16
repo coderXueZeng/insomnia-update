@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-122+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v122.deb",
-  "sha256": "8fa2389bd038bdb134fd79c2738e2f07bbdb6f6f6090fe5260b798f8072112ca",
-  "notes": "问答：引用消息会标明原话是谁说的、什么时候说的；上下文不再把 @insomnia 指令当聊天内容，也不再数「问了两次」"
+  "version": "0.1.0-123+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v123.deb",
+  "sha256": "cd537cee5f9743cf98ed13b77e6c42326273706e4620aabfe92442a6f1c47feb",
+  "notes": "问答：引用会标明原话是谁说的；上下文剔除 @insomnia 指令并加时间戳；禁止数「问了几次」"
 }
