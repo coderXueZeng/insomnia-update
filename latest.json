@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-125+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v125.deb",
-  "sha256": "21665060ed9fb4f8df2d66f3205e602e4b3b5bfd747d63c3efb97f6800a6b18a",
-  "notes": "放行：名字匹配再补一层消息昵称兜底；日志保留 4000→60000 字，排查历史更久"
+  "version": "0.1.0-126+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v126.deb",
+  "sha256": "6f44127e60512e372a433406fa279c6db64b8bb518f122aa15ab739bbcceaf7c",
+  "notes": "排队：多人同时 @ 时按消息时间先后逐条回答（不再并发乱序）；新增 排队 开/关/清空 与状态查询"
 }
