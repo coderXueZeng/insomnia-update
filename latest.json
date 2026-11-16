@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-114+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v114.deb",
-  "sha256": "fb37644fbd5baf8459ac6b2050720a99e7ddd72324f8c87f9f7b928e9b451dab",
-  "notes": "放行名单里的人也能发语音（10 秒节流）；体检/换音色/Key/通道仍锁主人；被挡的人在单聊里会收到一句怎么放行"
+  "version": "0.1.0-115+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v115.deb",
+  "sha256": "db93fc78a91c869aca6b671edd6b41fa0fccc50578967ad99d25538fc51f30d3",
+  "notes": "语音：末尾补 0.4 秒静音、停录延后到 0.4 秒，修最后一个字被切掉"
 }
