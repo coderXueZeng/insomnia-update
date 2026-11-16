@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-121+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v121.deb",
-  "sha256": "8ad3254f923d5f71b019fe12878d58a62b76c9bcda65b368bdcadef4f18ec783",
-  "notes": "斗图：是否发出改成读会话气泡判定（消息回调有时不触发）+ 点一次确认一次"
+  "version": "0.1.0-122+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v122.deb",
+  "sha256": "8fa2389bd038bdb134fd79c2738e2f07bbdb6f6f6090fe5260b798f8072112ca",
+  "notes": "问答：引用消息会标明原话是谁说的、什么时候说的；上下文不再把 @insomnia 指令当聊天内容，也不再数「问了两次」"
 }
