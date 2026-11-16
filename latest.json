@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-143+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v143.deb",
-  "sha256": "203c383e042c668ff52596aa11bd48a45eda4b41de35893b51591d3baa880e30",
-  "notes": "修代发回执黑屏：回执原先走屏幕模拟，连续切换会话(发给A→回执给B)时会弹空微信导航栈导致黑屏；改为回执也优先用微信内部接口开会话，并在屏幕兜底失败时点微信tab恢复会话列表"
+  "version": "0.1.0-144+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v144.deb",
+  "sha256": "e1d0d87301615092ae2bb29ffe17b2b7bdcdbb4ebb238960b9fc518a43642f54",
+  "notes": "根治代发黑屏：弹聊天页后在主线程用 sleep 会冻结微信 runloop，pop 动画走不完就和下一次 push 转场冲突导致全黑；改成主线程用 RunLoop runMode 让动画继续跑(非阻塞等待)。真机复现两次切换链路验证无黑屏"
 }
