@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-131+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v131.deb",
-  "sha256": "67e96e9439607a6feda7f4aa847e39105e942f6f22b7d106b138940a55fc45bc",
-  "notes": "加「直发能力」诊断：列出微信内部 Send* 方法，用于做不切界面的直发"
+  "version": "0.1.0-132+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v132.deb",
+  "sha256": "1afc891f770aba96397767dc947519da4a0c65dca37695603a3c7c56c95814e9",
+  "notes": "直发能力诊断改到主线程取服务（后台线程拿不到 MMServiceCenter）"
 }
