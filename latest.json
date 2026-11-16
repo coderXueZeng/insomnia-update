@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-128+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v128.deb",
-  "sha256": "b15b4673824cc8b3c60badac0fe3d9d99f5226bc07d0f440c26cbb79750b1f5e",
-  "notes": "排队 v2（日志/状态可见当前处理）+ 修「写一篇文章」被当成看链接的误判"
+  "version": "0.1.0-129+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v129.deb",
+  "sha256": "41d2a27445bb84b5c9d88e0263eb42c0f99cc9f8b58ece1f55211b54731e4ad2",
+  "notes": "排队：加 20 条上限防止连刷堵队，清空待办留日志"
 }
