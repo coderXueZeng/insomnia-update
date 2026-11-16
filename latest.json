@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-134+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v134.deb",
-  "sha256": "fa919b68076245bdf1d976e098dc904695517155e3a56bcf35ec3520fa2d90a4",
-  "notes": "跨会话发送：内部开会话失败后再等 2 秒复查，弹页后等动画结束（修「找不到返回入口」）"
+  "version": "0.1.0-141+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v141.deb",
+  "sha256": "fb959ad7e4792a80cbaff48c6830ec553db831389247792754b998f6ba995e88",
+  "notes": "修跨会话代发：给没有会话记录的人（如张鹏）发消息前先弹回会话列表再 Push；通讯录改读新版 WCDB 库（4785 人可查）；同名优先已授权/有聊天记录的人；代发体检只取第一个名字"
 }
