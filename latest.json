@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-146+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v146.deb",
-  "sha256": "6e540ed5145be4a9c7c363802e832b5e81325c311eb7172d6a9187d66981ac91",
-  "notes": "新增唱歌能力：@insomnia 唱歌 <歌名/要求> 现场编词并用 Breeze TTS 2 演唱指令合成唱歌腔语音条发出；新增「语音 唱腔 <描述>」设定演唱风格（清空恢复默认）；语音合成指令参数化（InsVoiceSynthesizeWith）"
+  "version": "0.1.0-164+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v164.deb",
+  "sha256": "0cd4a78bae0cfb0a949738c3ae6564c8273308667347bb364a59ceb119ae82d2",
+  "notes": "成语接龙 v2：开局后同一会话不带 @insomnia 前缀的消息也进游戏（10 分钟无动静自动收摊）；新增「关闭接龙/开启接龙」总开关（持久化到 config.json gameEnabled）；persona 注入接龙规则"
 }
