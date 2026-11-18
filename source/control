@@ -1,0 +1,9 @@
+Package: com.xuezeng.insomnia
+Name: Insomnia
+Version: 0.1.0
+Architecture: iphoneos-arm
+Description: WeChat AI memory + @insomnia trigger
+Maintainer: xuezeng
+Author: xuezeng
+Section: Tweaks
+Depends: mobilesubstrate
