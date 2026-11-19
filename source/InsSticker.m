@@ -2,6 +2,7 @@
 #import "InsConfig.h"
 #import "InsMCP.h"
 #import "InsSend.h"
+#import <CommonCrypto/CommonCryptor.h>
 #include <stdatomic.h>
 
 static void InsSNote(NSString *line) {
@@ -13,6 +14,7 @@ static NSString *InsSIndexPath(void) { return [InsSRoot() stringByAppendingPathC
 static NSString *InsSMinePath(void) { return [InsSRoot() stringByAppendingPathComponent:@"stickers_mine.json"]; }
 static NSString *InsSCursorPath(void) { return [InsSRoot() stringByAppendingPathComponent:@"sticker_cursor.json"]; }
 static NSString *InsSOwnDir(void) { return [InsSRoot() stringByAppendingPathComponent:@"stickers"]; }
+static NSString *InsSRecentPath(void) { return [InsSRoot() stringByAppendingPathComponent:@"stickers_recent.json"]; }
 
 static NSObject *gLock = nil;
 static NSArray<NSDictionary *> *gItems = nil;
@@ -198,6 +200,175 @@ static BOOL InsSAllowFire(NSString *talker, NSString **why) {
         gLastFire[talker] = now;
         return YES;
     }
+}
+
+// ------- 解释表情包：最近表情记录 + 表情图片获取 -------
+
+/// 每个会话最近 8 条表情（新→旧），落盘 stickers_recent.json，重启后也能解释「刚发的」
+static NSMutableDictionary<NSString *, NSArray<NSDictionary *> *> *gRecent = nil;
+
+static NSDictionary<NSString *, NSArray *> *InsSRecentLoad(void) {
+    NSData *raw = [NSData dataWithContentsOfFile:InsSRecentPath()];
+    NSDictionary *db = raw ? [NSJSONSerialization JSONObjectWithData:raw options:0 error:nil] : nil;
+    return [db isKindOfClass:[NSDictionary class]] ? db : @{};
+}
+
+static void InsSRecentSave(void) {
+    NSData *data = [NSJSONSerialization dataWithJSONObject:gRecent options:0 error:nil];
+    if (data) [data writeToFile:InsSRecentPath() atomically:YES];
+}
+
+static void InsSRecentEnsure(void) {
+    if (!gRecent) {
+        NSDictionary *db = InsSRecentLoad();
+        gRecent = [db mutableCopy] ?: [NSMutableDictionary dictionary];
+    }
+}
+
+static void InsSRecordRecent(NSString *xml, NSString *talker, BOOL fromMe) {
+    if (!talker.length || !xml.length) return;
+    InsSRecentEnsure();
+    @synchronized (gLock) {
+        NSArray *old = [gRecent[talker] isKindOfClass:[NSArray class]] ? gRecent[talker] : @[];
+        NSMutableArray *list = [old mutableCopy];
+        NSString *md5 = InsSAttr(xml, @"md5") ?: @"";
+        // 同一张表情连发两次不重复记，只把时间顶到最新
+        for (NSUInteger i = 0; i < list.count; i++) {
+            if (md5.length && [list[i][@"md5"] isEqual:md5]) { [list removeObjectAtIndex:i]; break; }
+        }
+        [list addObject:@{ @"md5": md5,
+                           @"cdnurl": InsSAttr(xml, @"cdnurl") ?: @"",
+                           @"aeskey": InsSAttr(xml, @"aeskey") ?: @"",
+                           @"xml": xml.length > 600 ? [xml substringToIndex:600] : xml,
+                           @"fromMe": @(fromMe),
+                           @"time": @([[NSDate date] timeIntervalSince1970]) }];
+        while (list.count > 8) [list removeObjectAtIndex:0];
+        gRecent[talker] = [list copy];
+        InsSRecentSave();
+    }
+}
+
+static NSDictionary *InsSLastRecent(NSString *talker) {
+    if (!talker.length) return nil;
+    InsSRecentEnsure();
+    @synchronized (gLock) {
+        NSArray *list = [gRecent[talker] isKindOfClass:[NSArray class]] ? gRecent[talker] : nil;
+        return list.lastObject;
+    }
+}
+
+/// 递归找文件名带 md5 的图片文件，非首层只进带 emoji/emoticon/sticker 字样的目录，限 4000 个文件
+static NSData *InsSScanForMD5(NSString *dir, NSString *md5, NSInteger depth, NSInteger *budget) {
+    if (depth > 4 || *budget <= 0) return nil;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSString *name in [fm contentsOfDirectoryAtPath:dir error:nil] ?: @[]) {
+        if (*budget <= 0) return nil;
+        (*budget)--;
+        NSString *path = [dir stringByAppendingPathComponent:name];
+        BOOL isDir = NO;
+        if (![fm fileExistsAtPath:path isDirectory:&isDir]) continue;
+        if (isDir) {
+            NSString *low = [name lowercaseString];
+            if (depth == 0 ||
+                [low rangeOfString:@"emoji"].location != NSNotFound ||
+                [low rangeOfString:@"emoticon"].location != NSNotFound ||
+                [low rangeOfString:@"sticker"].location != NSNotFound) {
+                NSData *hit = InsSScanForMD5(path, md5, depth + 1, budget);
+                if (hit) return hit;
+            }
+            continue;
+        }
+        NSString *nameLow = [[name stringByDeletingPathExtension] lowercaseString];
+        if ([nameLow isEqualToString:md5] || [nameLow hasPrefix:md5]) {
+            NSData *d = [NSData dataWithContentsOfFile:path];
+            if (InsSImageKind(d)) return d;
+        }
+    }
+    return nil;
+}
+
+/// 按 md5 在本地表情缓存里找图片字节：先表情库，再扫 Documents 下的表情目录
+static NSData *InsSLocalEmojiData(NSString *md5) {
+    if (!md5.length) return nil;
+    for (NSDictionary *item in [InsSticker library]) {
+        if ([item[@"md5"] isEqual:md5] && [item[@"path"] isKindOfClass:[NSString class]]) {
+            NSData *d = [NSData dataWithContentsOfFile:item[@"path"]];
+            if (InsSImageKind(d)) return d;
+        }
+    }
+    NSString *docs = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+    if (!docs.length) return nil;
+    NSString *low = [md5 lowercaseString];
+    NSInteger budget = 4000;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (NSString *top in [fm contentsOfDirectoryAtPath:docs error:nil] ?: @[]) {
+        NSString *account = [docs stringByAppendingPathComponent:top];
+        BOOL isDir = NO;
+        if (![fm fileExistsAtPath:account isDirectory:&isDir] || !isDir) continue;
+        NSData *hit = InsSScanForMD5(account, low, 0, &budget);
+        if (hit) return hit;
+    }
+    return nil;
+}
+
+/// 微信表情 CDN 文件按 aeskey 加密。密钥可能是 32 位串截前 16 字节（AES-128）、
+/// 整串 32 字节（AES-256）或 hex 解码；解出的数据可能带 1 字节格式头。
+/// 各组合都试一遍，返回第一个像图片的。
+static NSData *InsSDecryptEmoji(NSData *blob, NSString *aeskey) {
+    if (!blob.length || !aeskey.length) return nil;
+    if (InsSImageKind(blob)) return blob;   // 有些 cdnurl 直接给明文图
+    NSMutableArray<NSData *> *keys = [NSMutableArray array];
+    NSData *ascii = [aeskey dataUsingEncoding:NSUTF8StringEncoding];
+    if (ascii.length >= 16) [keys addObject:[ascii subdataWithRange:NSMakeRange(0, 16)]];
+    if (ascii.length == 32) [keys addObject:ascii];   // AES-256 整串
+    NSMutableData *hex = [NSMutableData data];
+    NSString *clean = aeskey.lowercaseString;
+    for (NSUInteger i = 0; i + 1 < clean.length; i += 2) {
+        unsigned byte = 0;
+        if (sscanf([clean substringWithRange:NSMakeRange(i, 2)].UTF8String, "%02x", &byte) != 1) { hex = nil; break; }
+        [hex appendBytes:&byte length:1];
+    }
+    if (hex.length == 16) [keys addObject:hex];
+    if (!keys.count) return nil;
+    for (NSNumber *pad in @[@YES, @NO]) {
+        for (NSData *key in keys) {
+            NSMutableData *out = [NSMutableData dataWithLength:blob.length + 64];
+            size_t moved = 0;
+            CCCryptorStatus st = CCCrypt(kCCDecrypt, kCCAlgorithmAES,
+                                         kCCOptionECBMode | ([pad boolValue] ? kCCOptionPKCS7Padding : 0),
+                                         key.bytes, key.length, NULL, blob.bytes, blob.length,
+                                         out.mutableBytes, out.length, &moved);
+            if (st != kCCSuccess || moved == 0) continue;
+            out.length = moved;
+            if (InsSImageKind(out)) return out;
+            // 老格式：解出来第一个字节是类型码（1=gif 2=png 3=jpg 4=apng），跳过它再看
+            if (out.length > 1) {
+                uint8_t first = *(const uint8_t *)out.bytes;
+                if (first >= 1 && first <= 4) {
+                    NSData *stripped = [out subdataWithRange:NSMakeRange(1, out.length - 1)];
+                    if (InsSImageKind(stripped)) return stripped;
+                }
+            }
+        }
+    }
+    return nil;
+}
+
+static NSData *InsSDownloadSync(NSString *url, NSTimeInterval timeout) {
+    if (!url.length) return nil;
+    NSURL *u = [NSURL URLWithString:url];
+    if (!u) return nil;
+    __block NSData *data = nil;
+    dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:u];
+    req.timeoutInterval = timeout;
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+                                     completionHandler:^(NSData *d, NSURLResponse *r, NSError *e) {
+        data = d;
+        dispatch_semaphore_signal(sem);
+    }] resume];
+    dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW, (int64_t)((timeout + 5) * NSEC_PER_SEC)));
+    return data;
 }
 
 // ------- UI：微信表情面板 -------
@@ -533,10 +704,66 @@ static NSString *InsSPerform(NSString *talker) {
 
 + (void)bootstrap {
     InsSInit();
+    InsSRecentEnsure();
     // 启动时扫一次库，别在收到表情的那一刻才做几百次文件 IO
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
         [self refreshLibrary];
     });
+}
+
++ (void)recordRecent:(NSString *)xml talker:(NSString *)talker fromMe:(BOOL)fromMe {
+    InsSInit();
+    InsSRecordRecent(xml, talker, fromMe);
+}
+
++ (NSDictionary *)lastRecentForTalker:(NSString *)talker {
+    InsSInit();
+    return InsSLastRecent(talker);
+}
+
++ (NSData *)stickerImageData:(NSDictionary *)info error:(NSError **)error {
+    InsSInit();
+    if (![info isKindOfClass:[NSDictionary class]] || !info.count) {
+        if (error) *error = [NSError errorWithDomain:@"InsSticker" code:-1
+                                            userInfo:@{NSLocalizedDescriptionKey: @"没有表情信息"}];
+        return nil;
+    }
+    NSString *md5 = [info[@"md5"] isKindOfClass:[NSString class]] ? info[@"md5"] : @"";
+    NSString *cdn = [info[@"cdnurl"] isKindOfClass:[NSString class]] ? info[@"cdnurl"] : @"";
+    NSString *aeskey = [info[@"aeskey"] isKindOfClass:[NSString class]] ? info[@"aeskey"] : @"";
+    NSString *xml = [info[@"xml"] isKindOfClass:[NSString class]] ? info[@"xml"] : @"";
+    // 信息不全就从 xml 里补属性
+    if (!md5.length) md5 = InsSAttr(xml, @"md5") ?: @"";
+    if (!cdn.length) cdn = InsSAttr(xml, @"cdnurl") ?: @"";
+    if (!aeskey.length) aeskey = InsSAttr(xml, @"aeskey") ?: @"";
+    if (md5.length) {
+        NSData *local = InsSLocalEmojiData(md5);
+        if (local.length) {
+            InsSNote([NSString stringWithFormat:@"表情解释：md5=%@ 命中本地缓存（%lu 字节）",
+                      md5, (unsigned long)local.length]);
+            return local;
+        }
+    }
+    if (!cdn.length) {
+        if (error) *error = [NSError errorWithDomain:@"InsSticker" code:-2
+                                            userInfo:@{NSLocalizedDescriptionKey: @"本地没有这张表情，信息里也没有 CDN 地址"}];
+        return nil;
+    }
+    // cdnurl 有些写的是 //xxx 样式（无协议），补上 https
+    if (![cdn hasPrefix:@"http"]) {
+        cdn = [cdn hasPrefix:@"//"] ? [NSString stringWithFormat:@"https:%@", cdn]
+                                    : [NSString stringWithFormat:@"https://%@", cdn];
+    }
+    NSData *blob = InsSDownloadSync(cdn, 15);
+    NSData *img = InsSDecryptEmoji(blob, aeskey);
+    InsSNote([NSString stringWithFormat:@"表情解释：CDN 下载 %lu 字节，解密后 %@",
+              (unsigned long)blob.length, img.length ? [NSString stringWithFormat:@"%lu 字节", (unsigned long)img.length] : @"无效"]);
+    if (!img.length) {
+        if (error) *error = [NSError errorWithDomain:@"InsSticker" code:-3
+                                            userInfo:@{NSLocalizedDescriptionKey: @"CDN 下载的图解不开（链接过期或密钥不匹配）"}];
+        return nil;
+    }
+    return img;
 }
 
 + (NSUInteger)refreshLibrary {
@@ -644,6 +871,8 @@ static NSString *InsSPerform(NSString *talker) {
     InsSNote([NSString stringWithFormat:@"%@表情 md5=%@ type=%@ pid=%@ 会话=%@",
               fromMe ? @"我发" : @"收到", md5.length ? md5 : @"未知",
               emojiType.length ? emojiType : @"-", pid.length ? pid : @"-", talker]);
+    // 收发都记进「最近表情」，「这个表情什么意思」要从这里取最近一张
+    [self recordRecent:xml talker:talker fromMe:fromMe];
     if (fromMe) {
         atomic_fetch_add(&gOwnSent, 1);
         InsSRememberMine(md5, cdn, xml);

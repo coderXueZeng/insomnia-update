@@ -28,4 +28,13 @@
 /// 给 @insomnia 斗图状态 / wb 交接包用的诊断文字
 + (NSString *)debugInfo;
 
+// ---- 解释表情包 ----
+
+/// 记一条最近的表情消息（收发都记），供「表情包什么意思」取最近一张
++ (void)recordRecent:(NSString *)xml talker:(NSString *)talker fromMe:(BOOL)fromMe;
+/// 本会话最近一条表情消息的信息（md5/cdnurl/aeskey/xml/fromMe），没有则 nil
++ (NSDictionary *)lastRecentForTalker:(NSString *)talker;
+/// 把表情信息变成能喂给视觉模型的图片字节：本地缓存优先，再试 CDN 下载 + AES 解密
++ (NSData *)stickerImageData:(NSDictionary *)info error:(NSError **)error;
+
 @end

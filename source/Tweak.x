@@ -25,6 +25,7 @@ static void InsHandleWrap(id wrap, NSString *source);
 static void InsRunCommand(NSString *payload, NSString *talker, NSString *displayName,
                           NSDictionary *linkOverride, NSDictionary *imageOverride,
                           NSString *recordOverride, NSDictionary *fileOverride,
+                          NSDictionary *stickerOverride,
                           BOOL owner, NSString *quoteNote, uint32_t msgTime);
 static BOOL InsWantsLink(NSString *payload);
 static BOOL InsWantsImage(NSString *payload, InsConfig *cfg);
@@ -187,6 +188,38 @@ static void InsEnqueueCover(NSString *label, dispatch_block_t block) {
 
 static NSUInteger InsCoverDepth(void) {
     @synchronized (gPending) { return gCoverDepth; }
+}
+
+/// 找剧：同步 HTTP 调用 Mac 端找资源服务（与 InsCoverHTTP 同型，但它在 InsVoice.m
+/// 里是 static，这边看不到，单独放一份）。
+static NSData *InsFindHTTP(NSString *urlStr, NSString *method, NSData *body,
+                           NSTimeInterval timeout, NSString **err) {
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
+    req.HTTPMethod = method;
+    req.timeoutInterval = timeout;
+    if (body) {
+        req.HTTPBody = body;
+        [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    }
+    __block NSData *out = nil;
+    __block NSError *e = nil;
+    dispatch_semaphore_t sem = dispatch_semaphore_create(0);
+    [[[NSURLSession sharedSession] dataTaskWithRequest:req
+        completionHandler:^(NSData *d, NSURLResponse *r, NSError *error) {
+            out = d;
+            e = error;
+            dispatch_semaphore_signal(sem);
+        }] resume];
+    if (dispatch_semaphore_wait(sem, dispatch_time(DISPATCH_TIME_NOW,
+                                                   (int64_t)(timeout * NSEC_PER_SEC))) != 0) {
+        if (err) *err = @"请求超时";
+        return nil;
+    }
+    if (e) {
+        if (err) *err = e.localizedDescription ?: @"网络错误";
+        return nil;
+    }
+    return out;
 }
 
 /// 串行队列上逐条取出执行；每取出一条就放掉锁，长时间任务（LLM/语音）不影响入队。
@@ -616,6 +649,8 @@ static void InsHandleWrap(id wrap, NSString *source) {
     NSString *quoteRecord = nil;
     // 引用的是文件（.txt/.pdf 这类）：把附件信息带下去，由读文件分支取正文
     NSDictionary *quoteFile = nil;
+    // 引用的是表情消息（type 47）：带 md5/cdnurl/aeskey，解释表情包分支用
+    NSDictionary *quoteSticker = nil;
     // 文字引用时给模型的一句话说明：谁、什么时候、说了什么。否则上下文里同一句话
     // 出现两次，模型会当成对方又问了一遍（实测：主人引用姜世谊的「分泌物是啥」追问，
     // 回答里变成「姜世谊连着问了两次」）。
@@ -633,6 +668,12 @@ static void InsHandleWrap(id wrap, NSString *source) {
             // 引用的是图片：把被引用的 XML 交给看图分支。time 置 0 是故意的——
             // 让 imageDataFor: 的「按时间窗找缩略图」兜底失效，避免拿错成别的图；
             // 引用内容拿不到图时会回落到本会话已记下的那张（localID 准确，可读本地 .pic）。
+            if ([q[@"kind"] isEqualToString:@"sticker"] && [q[@"sticker"] isKindOfClass:[NSDictionary class]]) {
+                quoteSticker = q[@"sticker"];
+                InsNote([NSString stringWithFormat:
+                         @"引用的是表情消息：md5=%@ cdn=%@",
+                         quoteSticker[@"md5"] ?: @"无", quoteSticker[@"cdnurl"] ?: @"无"]);
+            }
             if ([q[@"kind"] isEqualToString:@"image"]) {
                 // 以前这里把「当前这条命令消息」的 localID 塞进来，图片文件名根本对不上，
                 // 只能退回本会话最近一张（于是答错图）。现在只带 svrid/createtime，
@@ -717,7 +758,7 @@ static void InsHandleWrap(id wrap, NSString *source) {
         InsNote([NSString stringWithFormat:@"接龙会话放行（无前缀）：%@",
                  InsScrub([content substringToIndex:MIN(content.length, 40)])]);
         InsRunCommand(content, talker, displayName, quoteLink, quoteImage, quoteRecord, quoteFile,
-                      fromMe, quoteNote, (uint32_t)createTime);
+                      quoteSticker, fromMe, quoteNote, (uint32_t)createTime);
         return;
     }
 
@@ -765,7 +806,7 @@ static void InsHandleWrap(id wrap, NSString *source) {
         }
     }
     InsRunCommand(payload, talker, displayName, quoteLink, quoteImage, quoteRecord, quoteFile,
-                  fromMe, quoteNote, (uint32_t)createTime);
+                  quoteSticker, fromMe, quoteNote, (uint32_t)createTime);
 }
 
 /// 回复的三档送达：会话通道 → 跳转会话再发 → 重发队列。
@@ -1282,6 +1323,7 @@ static void InsHandleAllow(NSString *payload, NSString *talker) {
 static void InsRunCommand(NSString *payload, NSString *talker, NSString *displayName,
                           NSDictionary *linkOverride, NSDictionary *imageOverride,
                           NSString *recordOverride, NSDictionary *fileOverride,
+                          NSDictionary *stickerOverride,
                           BOOL owner, NSString *quoteNote, uint32_t msgTime) {
     InsConfig *cfg = [InsConfig shared];
     // 手动补发/引用时 payload 可能自带触发词，先剥掉再解析
@@ -1336,6 +1378,92 @@ static void InsRunCommand(NSString *payload, NSString *talker, NSString *display
             InsReply(talker, text);
         }];
         return;
+    }
+    // 「找电视剧 <剧名>」「找动漫 <名>」「找电影/综艺/短剧 <名>」：Mac 端搜资源页拿
+    // 网盘链接，并驱动手机把资源自动转存到网盘「电视剧」目录。转存是 Mac 通过本机
+    // iproxy 通道操控这台手机的 UI 完成的，一次只能跑一个，和翻唱共用队列。
+    {
+        NSArray *findKinds = @[@"电视剧", @"动漫", @"电影", @"综艺", @"短剧"];
+        NSString *findKind = nil;
+        for (NSString *k in findKinds) {
+            if (InsCmdIs(cmdLower, [NSString stringWithFormat:@"找%@", k])) {
+                findKind = k;
+                break;
+            }
+        }
+        if (findKind) {
+            NSString *arg = InsArgAfter(payload, [NSString stringWithFormat:@"找%@", findKind]);
+            if (!arg.length) {
+                InsReply(talker, [NSString stringWithFormat:
+                    @"用法：找%@ <名字>，比如「找%@ 谷雨」", findKind, findKind]);
+                return;
+            }
+            if (!cfg.coverURL.length) {
+                InsReply(talker, @"找资源服务没配置，用不了。");
+                return;
+            }
+            NSUInteger depth = InsCoverDepth();
+            if (depth >= 3) {
+                InsReply(talker, @"前面还压着任务，这条找剧先不接了，过一会儿再发。");
+                return;
+            }
+            NSString *title = [arg copy];
+            NSString *baseURL = [cfg.coverURL copy];
+            NSString *kind = [findKind copy];
+            InsEnqueueCover([NSString stringWithFormat:@"找%@《%@》", kind, title], ^{
+                InsReply(talker, [NSString stringWithFormat:
+                    @"收到，去找《%@》：先搜资源库，找到就自动转存到网盘「电视剧」目录，"
+                    @"一般 1~3 分钟。注意：转存那会儿手机屏幕会自己动，别碰它，好了告诉你。",
+                    title]);
+                // 复用点歌通道：relay 只认 /cover 下单，歌名前缀「【找剧】」让 Mac worker
+                // 走搜资源+转存分支（同「【完整版】」前缀技巧，无需动云端）。
+                NSString *root = baseURL;
+                while ([root hasSuffix:@"/"]) root = [root substringToIndex:root.length - 1];
+                NSString *err = nil;
+                NSData *post = [NSJSONSerialization dataWithJSONObject:
+                                @{@"song": [NSString stringWithFormat:@"【找剧】%@", title]}
+                                options:0 error:nil];
+                NSData *resp = InsFindHTTP([NSString stringWithFormat:@"%@/cover", root],
+                                           @"POST", post, 30, &err);
+                NSNumber *jid = nil;
+                if (resp.length) {
+                    id j = [NSJSONSerialization JSONObjectWithData:resp options:0 error:nil];
+                    if ([j isKindOfClass:[NSDictionary class]]) jid = j[@"id"];
+                }
+                if (!jid) {
+                    InsReply(talker, [NSString stringWithFormat:
+                        @"找《%@》没排上：服务没响应（%@）。", title, err ?: @"-"]);
+                    return;
+                }
+                // 轮询结果：找剧=搜页(最多2分钟)+手机转存(1~3分钟)，给 12 分钟
+                NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:720];
+                NSString *text = nil;
+                while ([deadline timeIntervalSinceNow] > 0) {
+                    [NSThread sleepForTimeInterval:6];
+                    NSData *st = InsFindHTTP([NSString stringWithFormat:@"%@/status?id=%@",
+                                              root, jid], @"GET", nil, 20, &err);
+                    if (!st.length) continue;
+                    id sj = [NSJSONSerialization JSONObjectWithData:st options:0 error:nil];
+                    if (![sj isKindOfClass:[NSDictionary class]]) continue;
+                    NSString *state = sj[@"state"] ?: @"";
+                    NSString *note = sj[@"note"] ?: @"";
+                    if ([state isEqualToString:@"done"]) { text = note; break; }
+                    if ([state isEqualToString:@"error"]) {
+                        // 找剧的结果文本是借 error 态的 note 回传的（结果不是音频）
+                        text = note.length ? note : @"资源页里没找到这部剧。";
+                        break;
+                    }
+                }
+                if (!text.length) {
+                    text = [NSString stringWithFormat:
+                            @"找《%@》超时了（资源页渲染或转存太慢），稍后再试。",
+                            title];
+                }
+                InsNote([NSString stringWithFormat:@"找剧《%@》结果：%@", title, text]);
+                InsReply(talker, text);
+            });
+            return;
+        }
     }
     // 「唱歌 <歌名/要求>」/「语音 唱 <…>」：现场编词开唱。先让大模型把题目写成歌词，
     // 回答出来后用唱歌腔（Breeze 演唱指令）合成语音条，而不是照着念。
@@ -1872,6 +2000,62 @@ static void InsRunCommand(NSString *payload, NSString *talker, NSString *display
             cfg.allowLocalEcho = on;
             InsReply(talker, on ? @"已打开本地回显：发不出去时本地插一条（对方收不到，但你能看到）。"
                                 : @"已关闭本地回显：发不出去就进重发队列，不会再出现「你这儿有、对方那儿没有」。");
+            return;
+        }
+
+        // ---- 解释表情包：引用表情消息 + 什么意思，或最近刚收/发的表情 + 意思/梗 ----
+        // 表情消息(type 47)不是图片消息，看图分支只认 .pic 拿不到它；斗图分支只管「回一张」。
+        // 必须放在斗图分支之前：「表情包什么意思」会被那里的「表情包」关键词误当成表情库列表。
+        BOOL explainSticker = NO;
+        if (stickerOverride.count) {
+            // 引用了一张表情：除非话里有别的明显意图，都当解释它
+            explainSticker = payload.length == 0 ||
+                InsHasWord(payload, @"意思") || InsHasWord(payload, @"解释") ||
+                InsHasWord(payload, @"什么") || InsHasWord(payload, @"啥") ||
+                InsHasWord(payload, @"梗") || InsHasWord(payload, @"讲讲") ||
+                InsHasWord(payload, @"说说") || InsHasWord(payload, @"分析") ||
+                InsHasWord(payload, @"看看") || InsHasWord(payload, @"表情") ||
+                InsHasWord(payload, @"为什么") || InsHasWord(payload, @"搞笑");
+        } else if (InsHasWord(payload, @"表情") || InsHasWord(lower, @"meme") ||
+                   InsHasWord(lower, @"sticker")) {
+            // 口头问「这个表情什么意思」「表情包什么梗」：解释本会话最近一张（收发都算）
+            explainSticker = InsHasWord(payload, @"意思") || InsHasWord(payload, @"解释") ||
+                InsHasWord(payload, @"梗") || InsHasWord(payload, @"讲讲") ||
+                InsHasWord(payload, @"分析") || InsHasWord(payload, @"看不懂") ||
+                InsHasWord(payload, @"啥") || InsHasWord(payload, @"含义") ||
+                InsHasWord(payload, @"看看");
+        }
+        if (explainSticker) {
+            NSDictionary *info = stickerOverride.count ? stickerOverride
+                                                       : [InsSticker lastRecentForTalker:talker];
+            if (!info.count) {
+                InsReply(talker, [NSString stringWithFormat:
+                    @"这个会话里我没记到过表情包。发一张表情后马上说「%@ 这是什么意思」，"
+                    @"或者长按引用那张表情再问我。", cfg.trigger]);
+                return;
+            }
+            InsReply(talker, @"我看看这个表情…");
+            NSError *stickerErr = nil;
+            NSData *img = [InsSticker stickerImageData:info error:&stickerErr];
+            if (!img.length) {
+                InsReply(talker, [NSString stringWithFormat:
+                    @"这张表情的图取不到（%@）。把这张表情重新发一遍，或者发一次再问我就有记录了。",
+                    stickerErr.localizedDescription ?: @"本地缓存和 CDN 都没拿到"]);
+                return;
+            }
+            NSString *who = [info[@"fromMe"] boolValue]
+                ? [InsMemory selfLabel]
+                : [InsMemory partnerLabelForTalker:talker];
+            NSString *question = [NSString stringWithFormat:
+                @"【称谓】提到微信账号主人用「%@」，提到对方用「%@」。\n"
+                @"这是一张微信表情包（%@发的）。请先用一句话描述画面，再解释它想表达的情绪或潜台词、"
+                @"通常在什么聊天场景使用；画面里有文字的话把文字的意思也点出来。"
+                @"口语化，总共不超过五句话。",
+                [InsMemory selfLabel], [InsMemory partnerLabelForTalker:talker], who];
+            NSString *answer = [InsLLM askVision:question image:img error:&stickerErr];
+            InsReply(talker, answer.length ? answer
+                     : [NSString stringWithFormat:@"没解析出来：%@",
+                        stickerErr.localizedDescription ?: @"视觉模型没有回应"]);
             return;
         }
 

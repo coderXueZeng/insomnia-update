@@ -1077,7 +1077,7 @@ static NSString *InsMediaReadTextFile(NSString *path, NSUInteger maxChars, NSStr
     NSString *kind = @"";
     NSString *recordText = @"";
     NSDictionary *fileInfo = nil;
-    // 合并转发聊天记录里也有 <url>，必须先判，别当成普通链接卡片
+    NSDictionary *sticker = @{};
     BOOL isRecord = InsIsChatRecordXML(quoted ?: @"") || InsIsChatRecordXML(content);
     if (isRecord) {
         kind = @"record";
@@ -1093,6 +1093,19 @@ static NSString *InsMediaReadTextFile(NSString *path, NSUInteger maxChars, NSStr
         NSMutableDictionary *withId = [fileInfo mutableCopy];
         if (svrid.length) withId[@"svrid"] = svrid;
         fileInfo = withId;
+    } else if ([refType isEqualToString:@"47"] ||
+               [quoted rangeOfString:@"<emoji"].location != NSNotFound ||
+               [quoted rangeOfString:@"&lt;emoji"].location != NSNotFound) {
+        // 引用的是微信表情消息：emoji XML 带 md5/cdnurl/aeskey，别当成链接卡片去抓正文
+        kind = @"sticker";
+        link = @{};
+        NSString *emojiXML = InsHTMLEntities(quoted ?: @"");
+        if (!emojiXML.length || [emojiXML rangeOfString:@"<emoji"].location == NSNotFound)
+            emojiXML = InsHTMLEntities(refBlock ?: @"");
+        sticker = @{ @"md5": InsXMLAttr(emojiXML, @"md5") ?: @"",
+                     @"cdnurl": InsXMLAttr(emojiXML, @"cdnurl") ?: @"",
+                     @"aeskey": InsXMLAttr(emojiXML, @"aeskey") ?: @"",
+                     @"xml": emojiXML };
     } else if ([refType isEqualToString:@"3"] ||
                [quoted rangeOfString:@"<img"].location != NSNotFound ||
                [quoted rangeOfString:@"cdnmidimgurl"].location != NSNotFound ||
@@ -1113,6 +1126,7 @@ static NSString *InsMediaReadTextFile(NSString *path, NSUInteger maxChars, NSStr
     return @{ @"reply": reply ?: @"", @"quoted": quoted ?: @"", @"link": link,
               @"kind": kind, @"record": recordText,
               @"file": fileInfo ?: @{},
+              @"sticker": sticker ?: @{},
               @"svrid": svrid ?: @"", @"time": @(refTime),
               @"quoter": quoter, @"quoterName": quoterName };
 }

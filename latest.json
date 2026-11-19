@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-164+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v164.deb",
-  "sha256": "0cd4a78bae0cfb0a949738c3ae6564c8273308667347bb364a59ceb119ae82d2",
-  "notes": "成语接龙 v2：开局后同一会话不带 @insomnia 前缀的消息也进游戏（10 分钟无动静自动收摊）；新增「关闭接龙/开启接龙」总开关（持久化到 config.json gameEnabled）；persona 注入接龙规则"
+  "version": "0.1.0-166+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v166.deb",
+  "sha256": "ca2df47208696e18e44b38a10cd23ffc06f566af9ba2f575111bfe828e549a40",
+  "notes": "新增「解释表情包」：引用表情问什么意思，或发表情后说「这什么意思」，会看图解读画面和潜台词"
 }
