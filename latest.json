@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-167+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v167.deb",
-  "sha256": "2e5e792efe370ac926ad514295f3776e29cbf11f37f792edde7d5c0fcd56dc4d",
-  "notes": "修复解释表情包：支持引用表情的 appmsg type 8 封装；把图片当表情包发时回退到最近图片取图"
+  "version": "0.1.0-168+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v168.deb",
+  "sha256": "fa25efb560168132f274ad8db818aaa3e88766fc250da5b664c7452158a53967",
+  "notes": "诊断版：记录引用表情的原始 XML，定位 md5 解析问题"
 }
