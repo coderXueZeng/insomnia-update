@@ -1094,17 +1094,34 @@ static NSString *InsMediaReadTextFile(NSString *path, NSUInteger maxChars, NSStr
         if (svrid.length) withId[@"svrid"] = svrid;
         fileInfo = withId;
     } else if ([refType isEqualToString:@"47"] ||
+               // 实测：文件传输助手里引用表情，refermsg 的 type 取不到（日志「类型=」为空），
+               // 被引用内容是 <msg><appmsg ...><type>8</type>... 的 appmsg 表情封装。
+               // appmsg type 8 = 微信表情消息，必须认，否则引用表情解释不了。
+               [refType isEqualToString:@"8"] ||
+               [quoted rangeOfString:@"<type>8</type>"].location != NSNotFound ||
+               [quoted rangeOfString:@"&lt;type&gt;8&lt;/type&gt;"].location != NSNotFound ||
                [quoted rangeOfString:@"<emoji"].location != NSNotFound ||
                [quoted rangeOfString:@"&lt;emoji"].location != NSNotFound) {
         // 引用的是微信表情消息：emoji XML 带 md5/cdnurl/aeskey，别当成链接卡片去抓正文
         kind = @"sticker";
         link = @{};
         NSString *emojiXML = InsHTMLEntities(quoted ?: @"");
-        if (!emojiXML.length || [emojiXML rangeOfString:@"<emoji"].location == NSNotFound)
+        if (!emojiXML.length ||
+            ([emojiXML rangeOfString:@"<emoji"].location == NSNotFound &&
+             [emojiXML rangeOfString:@"md5"].location == NSNotFound))
             emojiXML = InsHTMLEntities(refBlock ?: @"");
-        sticker = @{ @"md5": InsXMLAttr(emojiXML, @"md5") ?: @"",
-                     @"cdnurl": InsXMLAttr(emojiXML, @"cdnurl") ?: @"",
-                     @"aeskey": InsXMLAttr(emojiXML, @"aeskey") ?: @"",
+        // appmsg type 8 里 md5/cdnurl/aeskey 有时是属性（md5="..."），
+        // 有时是子节点（<md5>...</md5>），两种都取
+        NSString *md5v = InsXMLAttr(emojiXML, @"md5");
+        if (!md5v.length) md5v = InsXMLTag(emojiXML, @"md5");
+        NSString *cdnv = InsXMLAttr(emojiXML, @"cdnurl");
+        if (!cdnv.length) cdnv = InsXMLTag(emojiXML, @"cdnurl");
+        if (!cdnv.length) cdnv = InsXMLAttr(emojiXML, @"cdnmidimgurl");
+        NSString *aesv = InsXMLAttr(emojiXML, @"aeskey");
+        if (!aesv.length) aesv = InsXMLTag(emojiXML, @"aeskey");
+        sticker = @{ @"md5": InsStripCDATA(md5v ?: @"") ?: @"",
+                     @"cdnurl": InsStripCDATA(cdnv ?: @"") ?: @"",
+                     @"aeskey": InsStripCDATA(aesv ?: @"") ?: @"",
                      @"xml": emojiXML };
     } else if ([refType isEqualToString:@"3"] ||
                [quoted rangeOfString:@"<img"].location != NSNotFound ||

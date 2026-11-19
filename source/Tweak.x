@@ -2028,28 +2028,41 @@ static void InsRunCommand(NSString *payload, NSString *talker, NSString *display
         if (explainSticker) {
             NSDictionary *info = stickerOverride.count ? stickerOverride
                                                        : [InsSticker lastRecentForTalker:talker];
-            if (!info.count) {
+            NSError *stickerErr = nil;
+            NSData *img = info.count ? [InsSticker stickerImageData:info error:&stickerErr] : nil;
+            // 很多人说的「表情包」其实是当图片发的一张图（type 3，不是微信表情 type 47），
+            // 这种走 InsMedia 的最近图片——否则「发张表情包问什么意思」永远答「没记到过」。
+            BOOL fromRecentImage = NO;
+            if (!img.length) {
+                NSArray<NSDictionary *> *recentPics = [InsMedia imagesForTalker:talker limit:1];
+                for (NSDictionary *media in recentPics) {
+                    NSError *oneErr = nil;
+                    NSData *one = [InsMedia imageDataFor:media talker:talker error:&oneErr];
+                    if (one.length) {
+                        img = one;
+                        fromRecentImage = YES;
+                        stickerErr = nil;
+                        break;
+                    }
+                    stickerErr = oneErr;
+                }
+            }
+            if (!img.length) {
                 InsReply(talker, [NSString stringWithFormat:
-                    @"这个会话里我没记到过表情包。发一张表情后马上说「%@ 这是什么意思」，"
-                    @"或者长按引用那张表情再问我。", cfg.trigger]);
+                    @"这个会话里我没记到过表情包或图片。发一张后马上说「%@ 这是什么意思」，"
+                    @"或者长按引用那张再问我。", cfg.trigger]);
                 return;
             }
             InsReply(talker, @"我看看这个表情…");
-            NSError *stickerErr = nil;
-            NSData *img = [InsSticker stickerImageData:info error:&stickerErr];
-            if (!img.length) {
-                InsReply(talker, [NSString stringWithFormat:
-                    @"这张表情的图取不到（%@）。把这张表情重新发一遍，或者发一次再问我就有记录了。",
-                    stickerErr.localizedDescription ?: @"本地缓存和 CDN 都没拿到"]);
-                return;
-            }
-            NSString *who = [info[@"fromMe"] boolValue]
-                ? [InsMemory selfLabel]
-                : [InsMemory partnerLabelForTalker:talker];
+            NSString *who = fromRecentImage
+                ? @"对方/账号主人"
+                : ([info[@"fromMe"] boolValue]
+                   ? [InsMemory selfLabel] : [InsMemory partnerLabelForTalker:talker]);
             NSString *question = [NSString stringWithFormat:
                 @"【称谓】提到微信账号主人用「%@」，提到对方用「%@」。\n"
-                @"这是一张微信表情包（%@发的）。请先用一句话描述画面，再解释它想表达的情绪或潜台词、"
-                @"通常在什么聊天场景使用；画面里有文字的话把文字的意思也点出来。"
+                @"这是一张聊天里的表情包/表情图（%@发的）。请先用一句话描述画面，"
+                @"再解释它想表达的情绪或潜台词、通常在什么聊天场景使用；"
+                @"画面里有文字的话把文字的意思也点出来。"
                 @"口语化，总共不超过五句话。",
                 [InsMemory selfLabel], [InsMemory partnerLabelForTalker:talker], who];
             NSString *answer = [InsLLM askVision:question image:img error:&stickerErr];
