@@ -584,7 +584,7 @@ static void InsNoteBlockedSender(NSString *talker, NSString *name, NSString *bri
 static void InsHandleWrap(id wrap, NSString *source) {
     InsConfig *cfg = [InsConfig shared];
     if (!cfg.enabled || !wrap) return;
-    // 定时器在微信后台可能被挂起，收到消息时补检一次是否该发进度汇报
+    // 进度汇报已改为纯手动（内部 noteActivity 空实现，不再自动发）
     [InsProgress noteActivity];
     // 顺手把没送达的回复补发掉（内部 10 分钟节流，队列空时直接返回）
     InsFlushOutboxIfDue();
@@ -1677,7 +1677,7 @@ static void InsRunCommand(NSString *payload, NSString *talker, NSString *display
                 @"%1$@ 斗图开 / 斗图关 对方发表情包时自动回一张我的表情包\n"
                 @"%1$@ 来一张 立刻回一张；%1$@ 表情包 查看/刷新我的表情库\n"
                 @"%1$@ 叫我 <称呼> 改叙述里对你的叫法；%1$@ 重述 把旧摘要改成新口径\n"
-                @"%1$@ 进度 看同步进度；%1$@ 进度开/关、进度 30、进度 现在、进度 这里\n"
+                @"%1$@ 进度 看状态；%1$@ 进度 现在 主动发一份（不会自动推送）；进度 这里/发给我 改收件目标\n"
                 @"%1$@ 送达 看有没有只在本地显示、对方收不到的回复；%1$@ 补发 立刻重试\n"
                 @"%1$@ 配置 体检配置；%1$@ 恢复配置 从备份补；%1$@ key <Key> 重设聊天 Key\n"
                 @"%1$@ 方向 检查历史消息的发言人标注是否正确\n"
@@ -1884,47 +1884,38 @@ static void InsRunCommand(NSString *payload, NSString *talker, NSString *display
             return;
         }
 
-        // ---- 定时同步进度汇报 ----
+        // ---- 同步进度：2026-11-23 起纯手动，不再自动推送 ----
+        // 自动汇报（定时器 + 消息补检）已在 InsProgress 内彻底停用。
+        // 只有「进度 现在」会真正发一份，其它子命令不再开启任何自动发送。
         if ([lower hasPrefix:@"进度"] || [lower hasPrefix:@"progress"]) {
             NSString *arg = InsArgAfter(payload, [lower hasPrefix:@"progress"] ? @"progress" : @"进度");
             NSString *a = [arg lowercaseString];
-            if ([a isEqualToString:@"开"] || [a isEqualToString:@"on"]) {
-                [InsProgress setEnabled:YES];
-                InsReply(talker, [NSString stringWithFormat:@"已开启：%@。默认发到「文件传输助手」，不会打扰别人。",
-                                  [InsProgress statusLine]]);
-                return;
-            }
-            if ([a isEqualToString:@"关"] || [a isEqualToString:@"off"] || [a isEqualToString:@"停"]) {
-                [InsProgress setEnabled:NO];
-                InsReply(talker, @"已关闭定时进度汇报。想看时发「进度 现在」即可。");
+            // 唯一会发送的方式：主动触发，立即发一份到当前配置的收件目标
+            if ([a isEqualToString:@"现在"] || [a isEqualToString:@"now"] || [a isEqualToString:@"发一次"]) {
+                NSString *target = [InsProgress reportNow];
+                InsReply(talker, [NSString stringWithFormat:@"已发一份同步进度到「%@」。自动推送已停用，只有你主动发才会再发。", target]);
                 return;
             }
             if ([a isEqualToString:@"这里"] || [a isEqualToString:@"本会话"] || [a isEqualToString:@"here"]) {
-                [InsProgress setEnabled:YES target:talker chatName:displayName];
-                InsReply(talker, @"进度改发到本会话。注意：这个会话里的对方也能看到这些进度消息。");
+                [InsProgress setTarget:talker chatName:displayName];
+                InsReply(talker, @"手动收件目标已改为本会话（只有你发「进度 现在」才会发，不会自动推送）。注意这个会话里的对方也能看到。");
                 return;
             }
             if ([a isEqualToString:@"发给我"] || [a isEqualToString:@"文件传输助手"] || [a isEqualToString:@"me"]) {
-                [InsProgress setEnabled:YES target:@"filehelper" chatName:@"文件传输助手"];
-                InsReply(talker, @"进度改发到「文件传输助手」，只有你自己能看到。");
+                [InsProgress setTarget:@"filehelper" chatName:@"文件传输助手"];
+                InsReply(talker, @"手动收件目标已改为「文件传输助手」，只有你自己能看到。");
                 return;
             }
-            if ([a isEqualToString:@"现在"] || [a isEqualToString:@"now"] || [a isEqualToString:@"发一次"]) {
-                NSString *target = [InsProgress reportNow];
-                InsReply(talker, [NSString stringWithFormat:@"已立刻发一份同步进度到「%@」。", target]);
-                return;
-            }
-            NSInteger minutes = [arg integerValue];
-            if (minutes > 0) {
-                [InsProgress setIntervalMinutes:minutes];
-                InsReply(talker, [NSString stringWithFormat:@"%@（间隔范围 5~1440 分钟）",
-                                  [InsProgress statusLine]]);
+            // 开/关/数字间隔：已无自动汇报可开关，明确告知，不再 setEnabled:YES
+            if ([a isEqualToString:@"开"] || [a isEqualToString:@"on"] ||
+                [a isEqualToString:@"关"] || [a isEqualToString:@"off"] || [a isEqualToString:@"停"] ||
+                [arg integerValue] > 0) {
+                InsReply(talker, @"自动进度推送已彻底停用，无需开关。想看时发「进度 现在」，会立刻发一份到文件传输助手。");
                 return;
             }
             InsReply(talker, [NSString stringWithFormat:
-                @"%@\n发「%@ 进度 现在」立刻收一份；「%@ 进度 30」改成每 30 分钟；"
-                @"「%@ 进度 这里」改发到本会话；「%@ 进度关」停掉。",
-                [InsProgress statusLine], cfg.trigger, cfg.trigger, cfg.trigger, cfg.trigger]);
+                @"%@\n只有主动发「%@ 进度 现在」才会发一份；「%@ 进度 这里」改到本会话、「%@ 进度 发给我」改回文件传输助手。不会自动推送。",
+                [InsProgress statusLine], cfg.trigger, cfg.trigger, cfg.trigger]);
             return;
         }
 
@@ -3180,7 +3171,7 @@ static void InsInstallChatHook(void) {
             InsMessageMgr();
             // 进度汇报是周期性消息：发不出去就丢掉，不能塞满重发队列
             [InsProgress setReplyHandler:^(NSString *t, NSString *text) { InsReplyNoQueue(t, text); }];
-            [InsProgress start];      // 默认每 60 分钟把同步进度发到文件传输助手
+            [InsProgress start];      // 仅做一次性配置迁移；自动推送已停用，不再启动定时器
             [InsVoice installHook];   // 语音条：hook 微信录音器的 PCM 通道
             [InsSticker bootstrap];   // 启动时先扫一次「我的已有表情包」
             [InsAutoLink bootstrap];  // 装载自动链接分析缓存

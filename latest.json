@@ -1,6 +1,6 @@
 {
-  "version": "0.1.0-168+debug",
-  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v168.deb",
-  "sha256": "fa25efb560168132f274ad8db818aaa3e88766fc250da5b664c7452158a53967",
-  "notes": "诊断版：记录引用表情的原始 XML，定位 md5 解析问题"
+  "version": "0.1.0-169+debug",
+  "url": "https://cdn.jsdelivr.net/gh/coderXueZeng/insomnia-update@main/releases/insomnia-v169.deb",
+  "sha256": "2cf83905e2f6b1507c8e389ee7d679f17c1b7d256ec1a0e47c2111d3dfb680db",
+  "notes": "同步进度改为纯手动：彻底停用定时/消息自动汇报，只有主动发「进度 现在」才发送"
 }

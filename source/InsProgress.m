@@ -4,8 +4,6 @@
 #import "InsSticker.h"
 
 static void (^gReply)(NSString *, NSString *) = nil;
-static NSTimeInterval gLastCheck = 0;
-static dispatch_source_t gTimer = nil;
 
 #pragma mark - 状态读写
 
@@ -35,9 +33,9 @@ static void InsPSave(NSDictionary *state) {
 }
 
 static NSDictionary *InsPDefaults(void) {
-    // 默认开：升级后用户不用再下命令就能定时收到进度。
-    // 默认发到「文件传输助手」，绝不会把进度发到别人的聊天里。
-    return @{@"enabled": @YES,
+    // 2026-11-23：默认彻底关闭自动汇报。用户要求只有主动触发（进度 现在）才发送。
+    // 保留 target=filehelper 仅作为手动触发时的收件目标。
+    return @{@"enabled": @NO,
              @"intervalMin": @60,
              @"talker": @"filehelper",
              @"chatName": @"文件传输助手",
@@ -56,14 +54,14 @@ static NSMutableDictionary *InsPState(void) {
     if (interval < 5 || interval > 1440) s[@"intervalMin"] = @60;
     NSString *t = [s[@"talker"] isKindOfClass:[NSString class]] ? s[@"talker"] : @"";
     if (!t.length) s[@"talker"] = @"filehelper";
+    // 一次性迁移（2026-11-23）：老版本把 enabled 默认写成 YES，光改默认值覆盖不了
+    // 手机上已有的 progress.json。打这个标记后强制关一次，之后尊重用户主动设置。
+    if (![s[@"manualOnlyV1"] boolValue]) {
+        s[@"enabled"] = @NO;
+        s[@"manualOnlyV1"] = @YES;
+        InsPSave(s);
+    }
     return s;
-}
-
-static NSObject *InsPLock(void) {
-    static NSObject *o = nil;
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{ o = [NSObject new]; });
-    return o;
 }
 
 static NSString *InsPTime(void) {
@@ -143,8 +141,7 @@ static NSString *InsPBuildReport(NSMutableDictionary *s) {
     }
     if (all.count > shown) [t appendFormat:@"· 另有 %lu 个会话未列出\n", (unsigned long)(all.count - shown)];
     [t appendFormat:@"正在同步 %lu 个会话\n", (unsigned long)[InsMemory syncingCount]];
-    [t appendFormat:@"下次汇报 %ld 分钟后；%@ 进度关 可停，%@ 进度 30 改间隔",
-        (long)[s[@"intervalMin"] integerValue], cfg.trigger, cfg.trigger];
+    [t appendFormat:@"自动推送已停用，仅在你主动发「%@ 进度 现在」时发送这一份。", cfg.trigger];
     return t;
 }
 
@@ -160,23 +157,8 @@ static void InsPSend(NSMutableDictionary *s) {
                     talker, (unsigned long)text.length]];
 }
 
-/// 只有抢到「该汇报了」这一次的调用会真的发，定时器与消息驱动不会重复
-static void InsPMaybeReport(void) {
-    NSMutableDictionary *s = InsPState();
-    if (![s[@"enabled"] boolValue]) return;
-    NSInteger interval = [s[@"intervalMin"] integerValue];
-    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-    if (now - [s[@"lastReportAt"] doubleValue] < interval * 60) return;
-    @synchronized (InsPLock()) {
-        s = InsPState();
-        if (![s[@"enabled"] boolValue]) return;
-        now = [[NSDate date] timeIntervalSince1970];
-        if (now - [s[@"lastReportAt"] doubleValue] < interval * 60) return;
-        s[@"lastReportAt"] = @(now);
-        InsPSave(s);   // 先占位，防止 30 秒定时器与消息驱动各发一次
-    }
-    InsPSend(s);
-}
+// 2026-11-23：自动汇报逻辑（定时器 / 消息补检）已整体移除。
+// 用户要求「只有主动触发才发送」，现在唯一发送入口是 +reportNow -> InsPSend。
 
 @implementation InsProgress
 
@@ -185,27 +167,14 @@ static void InsPMaybeReport(void) {
 }
 
 + (void)start {
-    static dispatch_once_t once;
-    dispatch_once(&once, ^{
-        dispatch_queue_t q = dispatch_get_global_queue(QOS_CLASS_UTILITY, 0);
-        gTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, q);
-        dispatch_source_set_timer(gTimer,
-                                  dispatch_time(DISPATCH_TIME_NOW, (int64_t)(30 * NSEC_PER_SEC)),
-                                  30 * NSEC_PER_SEC, 5 * NSEC_PER_SEC);
-        dispatch_source_set_event_handler(gTimer, ^{ InsPMaybeReport(); });
-        dispatch_resume(gTimer);
-        [InsConfig log:[NSString stringWithFormat:@"进度汇报已启动：%@", [self statusLine]]];
-    });
+    // 2026-11-23：不再启动定时汇报。用户要求只有主动触发才发送。
+    // 保留一次性迁移（关掉老配置），但不创建定时器。
+    (void)InsPState();
+    [InsConfig log:@"进度汇报：自动推送已停用，仅主动触发（进度 现在）发送"];
 }
 
 + (void)noteActivity {
-    // 后台挂起后定时器不跑，靠每条消息补检；20 秒最多查一次，避免频繁读盘
-    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-    @synchronized (InsPLock()) {
-        if (now - gLastCheck < 20) return;
-        gLastCheck = now;
-    }
-    InsPMaybeReport();
+    // 2026-11-23：消息不再触发自动汇报。留空以兼容 Tweak.x 的调用点。
 }
 
 + (BOOL)enabled { return [InsPState()[@"enabled"] boolValue]; }
@@ -221,10 +190,7 @@ static void InsPMaybeReport(void) {
 }
 
 + (NSString *)statusLine {
-    NSDictionary *s = InsPState();
-    return [NSString stringWithFormat:@"进度汇报：%@（每 %ld 分钟 → %@）",
-            [s[@"enabled"] boolValue] ? @"开" : @"关",
-            (long)[s[@"intervalMin"] integerValue], [self targetLabel]];
+    return @"进度汇报：仅手动（自动推送已停用；发「进度 现在」才发一份）";
 }
 
 + (void)setEnabled:(BOOL)on {
